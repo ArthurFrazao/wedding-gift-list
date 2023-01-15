@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useEffect } from 'react'
-import { HeroCard } from './components/HeroCard'
-import { PageDefault } from './components/PageDefault'
+import { HeroCard } from '../../components/HeroCard'
+import { PageDefault } from '../../components/PageDefault'
 
-function App() {
+export function Home() {
   useEffect(() => {
     axios
       .get('http://127.0.0.1:5000/gift-all')
@@ -18,5 +18,3 @@ function App() {
     </div>
   )
 }
-
-export default App
