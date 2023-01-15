@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -6,5 +7,5 @@ app = Flask(__name__)
 def get_gift_all():
     return "teste"
 
-if __name__ == "_main__":
-    app.run(host="0.0.0.0")
+app.run(debug=True)
+CORS(app)
