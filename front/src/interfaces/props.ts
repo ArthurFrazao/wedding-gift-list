@@ -1,4 +1,4 @@
-export interface Gift {
+export interface GiftProps {
   id: number
   name: string
   price: number
@@ -6,7 +6,7 @@ export interface Gift {
   is_presented: boolean
 }
 
-export interface Category {
+export interface CategoryProps {
   id: number
   name: string
   description: string
