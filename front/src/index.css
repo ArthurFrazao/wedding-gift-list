@@ -1,0 +1,20 @@
+:root {
+  --white: #f9f9f9;
+  --black: #1d1a05;
+  --blue: #1e1e24;
+  --green-light: #91b696;
+  --green-dark: #287233;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--green-light);
+}
