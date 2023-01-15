@@ -1,9 +1,12 @@
-import { Header } from './components/Header'
+import { HeroCard } from './components/HeroCard'
+import { PageDefault } from './components/PageDefault'
 
 function App() {
   return (
     <div>
-      <Header />
+      <PageDefault>
+        <HeroCard />
+      </PageDefault>
     </div>
   )
 }
