@@ -15,6 +15,10 @@ export const Container = styled.header`
 
   position: fixed;
 
+  a {
+    text-decoration: none;
+  }
+
   .title__gift {
     display: flex;
     flex-direction: row;

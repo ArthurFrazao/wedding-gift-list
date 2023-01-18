@@ -1,15 +1,7 @@
-import axios from 'axios'
-import { useEffect } from 'react'
 import { HeroCard } from '../../components/HeroCard'
 import { PageDefault } from '../../components/PageDefault'
 
 export function Home() {
-  useEffect(() => {
-    axios
-      .get('http://127.0.0.1:5000/gift-all')
-      .then(resp => console.log('resp', resp))
-  }, [])
-
   return (
     <div>
       <PageDefault>

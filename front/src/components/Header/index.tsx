@@ -1,4 +1,5 @@
 import { Gift } from 'phosphor-react'
+import { Link } from 'react-router-dom'
 import { Container } from './styles'
 
 export function Header() {
@@ -11,7 +12,11 @@ export function Header() {
         </span>
       </div>
 
-      <h4 className="engaged">Nathalia & Arthur</h4>
+      <Link to="/home">
+        <h4 className="engaged" role="button">
+          Nathalia & Arthur
+        </h4>
+      </Link>
     </Container>
   )
 }

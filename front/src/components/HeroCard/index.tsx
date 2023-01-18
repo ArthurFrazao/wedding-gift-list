@@ -1,4 +1,6 @@
 import { Button } from '../Button'
+import { MenuCategories } from '../MenuCategories'
+
 import { Container } from './styles'
 
 export function HeroCard() {
@@ -22,7 +24,7 @@ export function HeroCard() {
         <Button>Visualizar lista</Button>
       </div>
 
-      <div className="categories"></div>
+      <MenuCategories />
     </Container>
   )
 }
