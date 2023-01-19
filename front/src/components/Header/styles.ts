@@ -5,15 +5,15 @@ export const Container = styled.header`
   flex-direction: row;
   align-items: center;
 
+  position: fixed;
+
   width: 100%;
   padding: 1rem 4rem;
   background: var(--white);
 
-  box-shadow: 1px -1px 98px 5px rgba(81, 81, 81, 0.19);
-  -webkit-box-shadow: 1px -1px 98px 5px rgba(81, 81, 81, 0.19);
-  -moz-box-shadow: 1px -1px 98px 5px rgba(81, 81, 81, 0.19);
-
-  position: fixed;
+  box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
+  -webkit-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
 
   a {
     text-decoration: none;

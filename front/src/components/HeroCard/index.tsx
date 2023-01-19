@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom'
+
 import { Button } from '../Button'
 import { MenuCategories } from '../MenuCategories'
 
 import { Container } from './styles'
 
 export function HeroCard() {
+  const navigate = useNavigate()
+
+  const redirectToGiftList = (url: string) => {
+    navigate(url)
+  }
+
   return (
     <Container>
       <div className="description">
@@ -21,7 +29,9 @@ export function HeroCard() {
           vocês podem utilizar a opção de cotas. Fiquem à vontade!
         </span>
 
-        <Button>Visualizar lista</Button>
+        <Button onClick={() => redirectToGiftList('/category/gift-list')}>
+          Visualizar lista
+        </Button>
       </div>
 
       <MenuCategories />

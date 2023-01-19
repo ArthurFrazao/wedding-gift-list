@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { Home } from './pages/Home'
-import { Category } from './pages/Category'
+import { Ceremony } from './pages/Ceremony'
+import { GiftsList } from './pages/GiftsList'
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,15 @@ export const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: '/category/:category',
-    element: <Category />
+    path: '/category/gift-list',
+    element: <GiftsList />
+  },
+  {
+    path: '/category/ceremony',
+    element: <Ceremony />
   }
+  // {
+  //   path: '/category/confirm-presence',
+  //   element: <ConfirmPresence />
+  // }
 ])

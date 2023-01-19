@@ -13,4 +13,13 @@ export const Container = styled.div`
     margin-top: 3rem;
     margin-bottom: 3rem;
   }
+
+  .listing {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    margin: 2rem 0;
+    gap: 2rem;
+    width: 100%;
+  }
 `
