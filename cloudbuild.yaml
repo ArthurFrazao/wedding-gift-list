@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+args: ['build', '-t', 'gcr.io/wedding-website2023/wedding-website:latest', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+args: ['push', 'gcr.io/wedding-website2023/wedding-website:latest']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+args: ['beta', 'run', 'deploy', 'wedding-website', ' — image', 'gcr.io/wedding-website2023/wedding-website', ' — port', '80', ' — region', 'us-central1', ' — platform', 'managed', ' — allow-unauthenticated']
+images:
+- 'gcr.io/wedding-website2023/wedding-website:latest'
