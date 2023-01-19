@@ -1,5 +1,10 @@
 steps:
 
+
+  - name: login
+    entrypoint:
+
+
   - name: python
     entrypoint: pip
     args: ["install", "-r", "requirements.txt", "--user"]
@@ -12,7 +17,7 @@ steps:
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'backwebsite', '--image', 'gcr.io/wedding-website2023/wedding-website:latest', '--region', 'us-central1']
+    args: ['run', 'deploy', 'backwebsite', '--image', 'gcr.io/wedding-website2023/wedding-website:latest', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
 
 images:
   - 'gcr.io/wedding-website2023/wedding-website:latest'
