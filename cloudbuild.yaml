@@ -5,16 +5,16 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/wedding-website2023/wedding-website:latest', '.']
-    options.logging: CLOUD_LOGGING_ONLY
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/wedding-website2023/wedding-website:latest']
-    options.logging: CLOUD_LOGGING_ONLY
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'backwebsite', '--image', 'gcr.io/wedding-website2023/wedding-website:latest', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
-    options.logging: CLOUD_LOGGING_ONLY
+
+options:
+  logging: CLOUD_LOGGING_ONLY
 
 images:
   - 'gcr.io/wedding-website2023/wedding-website:latest'
