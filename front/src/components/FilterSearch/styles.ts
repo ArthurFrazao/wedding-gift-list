@@ -25,4 +25,11 @@ export const Container = styled.div`
     border: none;
     border-radius: 8px;
   }
+
+  section > span {
+    margin-left: 1rem;
+    :hover {
+      cursor: pointer;
+    }
+  }
 `

@@ -9,7 +9,10 @@ export function FilterSearch() {
         <Button>Itens não presenteados</Button>
       </div>
 
-      <input type="text" placeholder="Buscar presente pelo nome" />
+      <section className="filter">
+        <input type="text" placeholder="Buscar presente pelo nome" />
+        <span role="button">Filtrar</span>
+      </section>
     </Container>
   )
 }
