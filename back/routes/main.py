@@ -12,4 +12,20 @@ def get_gift_all():
     response = jsonify({"teste": "teste"})
     return response
 
-app.run(debug=True)
+
+@app.route("/confirm-presence", methods=["GET"])
+@cross_origin(origin="localhost", headers=["Content- Type","Authorization"])
+def get_names():
+    response = jsonify({"teste2": "teste2"})
+    return response
+
+
+@app.route("/ceremony", methods=["GET"])
+@cross_origin(origin="localhost", headers=["Content- Type","Authorization"])
+def get_ceremony():
+    response = jsonify({"teste3": "teste3"})
+    return response
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
