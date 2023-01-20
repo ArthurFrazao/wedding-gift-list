@@ -20,5 +20,12 @@ def get_names():
     return response
 
 
+@app.route("/ceremony", methods=["GET"])
+@cross_origin(origin="localhost", headers=["Content- Type","Authorization"])
+def get_names():
+    response = jsonify({"teste3": "teste3"})
+    return response
+
+
 if __name__ == "__main__":
     app.run(debug=True)
