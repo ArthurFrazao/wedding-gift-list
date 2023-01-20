@@ -22,7 +22,7 @@ def get_names():
 
 @app.route("/ceremony", methods=["GET"])
 @cross_origin(origin="localhost", headers=["Content- Type","Authorization"])
-def get_names():
+def get_ceremony():
     response = jsonify({"teste3": "teste3"})
     return response
 
