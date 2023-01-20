@@ -12,5 +12,13 @@ def get_gift_all():
     response = jsonify({"teste": "teste"})
     return response
 
+
+@app.route("/confirm-presence", methods=["GET"])
+@cross_origin(origin="localhost", headers=["Content- Type","Authorization"])
+def get_names():
+    response = jsonify({"teste2": "teste2"})
+    return response
+
+
 if __name__ == "__main__":
     app.run(debug=True)
