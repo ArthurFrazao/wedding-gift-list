@@ -22,10 +22,10 @@ export function Header() {
   const location = useLocation()
   const currentPage = location.pathname
 
-  const [showArrowBack, setShowArrowBack] = useState(false)
+  const [showArrowBack, setShowArrowBack] = useState(true)
 
   useEffect(() => {
-    currentPage === '/home' && setShowArrowBack(true)
+    currentPage !== '/home' && setShowArrowBack(false)
   }, [location])
 
   return (
