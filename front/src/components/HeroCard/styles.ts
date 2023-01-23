@@ -20,4 +20,12 @@ export const Container = styled.div`
       font-size: 2rem;
     }
   }
+
+  @media (max-width: 768px) {
+    margin-top: 5rem;
+    padding: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
+  }
 `

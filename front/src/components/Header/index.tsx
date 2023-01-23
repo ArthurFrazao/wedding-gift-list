@@ -9,6 +9,7 @@ export function returnPage() {
   const handleBack = () => {
     window.history.back()
   }
+
   return (
     <ReturnPage role="button" onClick={() => handleBack()}>
       <ArrowLeft size={16} />

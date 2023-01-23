@@ -17,13 +17,21 @@ export const Container = styled.div`
   }
 
   input {
-    height: 32px;
+    height: 2rem;
     width: 300px;
 
     padding: 0 10px;
 
     border: none;
-    border-radius: 8px;
+    border-radius: 0.5rem;
+  }
+
+  section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 0.5rem;
   }
 
   section > span {

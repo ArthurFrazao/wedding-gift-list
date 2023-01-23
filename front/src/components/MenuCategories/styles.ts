@@ -32,4 +32,24 @@ export const Container = styled.div`
     border-radius: 50%;
     padding: 1rem;
   }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 2rem;
+    gap: 1rem;
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  }
 `

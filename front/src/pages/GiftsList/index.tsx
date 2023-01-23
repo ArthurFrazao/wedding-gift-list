@@ -19,6 +19,12 @@ export function GiftsList() {
     <PageDefault>
       <Container>
         <h1>Lista de presentes</h1>
+        <span>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic
+          voluptatibus commodi perferendis error harum sint facilis dolorem quod
+          amet tempora delectus debitis explicabo voluptate tempore eligendi
+          doloribus eius, labore iusto?
+        </span>
         <FilterSearch />
 
         <div className="listing">
