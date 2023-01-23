@@ -22,4 +22,8 @@ export const Container = styled.div`
     gap: 2rem;
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `
