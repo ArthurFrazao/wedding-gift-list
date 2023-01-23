@@ -53,7 +53,7 @@ export const Container = styled.header`
     gap: 1rem;
     padding: 1rem 1.5rem;
 
-    .title__gift > span {
+    .title__gift > div {
       border: none;
     }
 

@@ -1,13 +1,23 @@
+import { useState, useEffect } from 'react'
 import { PageDefault } from '../../components/PageDefault'
 import { Container } from './styles'
 
 export function Ceremony() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  const verifyIsMobile = () => {
+    window.screen.width <= 768 ? setIsMobile(true) : setIsMobile(false)
+  }
+  useEffect(() => {
+    verifyIsMobile()
+  }, [window.screen])
+
   const MapGoogle = (): JSX.Element => {
     return (
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.274145559556!2d-48.35572998459704!3d-18.963496413879195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94a44323c35d5fdd%3A0xd2502675db5406e6!2sR.%20dos%20Pinheiros%2C%20789%20-%20Panorama%2C%20Uberl%C3%A2ndia%20-%20MG%2C%2038412-606!5e0!3m2!1sen!2sbr!4v1674090903591!5m2!1sen!2sbr"
-        width="600"
-        height="450"
+        width={isMobile ? '100%' : '600'}
+        height={isMobile ? '250' : '450'}
         style={{ border: 0 }}
         allowFullScreen={true}
         loading="lazy"

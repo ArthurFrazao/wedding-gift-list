@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  min-height: 80vh;
+  height: 80vh;
 
   display: flex;
   flex-direction: column;
@@ -23,5 +23,22 @@ export const Container = styled.div`
 
   span {
     width: 80%;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+
+    .content {
+      display: flex;
+      flex-direction: column-reverse;
+
+      gap: 1rem;
+    }
+
+    span {
+      width: 100%;
+    }
   }
 `

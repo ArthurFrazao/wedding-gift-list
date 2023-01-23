@@ -3,10 +3,15 @@ import { createBrowserRouter } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Ceremony } from './pages/Ceremony'
 import { GiftsList } from './pages/GiftsList'
+import { PageNotFound } from './components/PageNotFound'
 
 export const router = createBrowserRouter([
   {
     path: '*',
+    element: <PageNotFound />
+  },
+  {
+    path: '/',
     element: <Home />
   },
   {

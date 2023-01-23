@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { CardGift } from '../../components/CardGift'
 
+import { CardGift } from '../../components/CardGift'
 import { FilterSearch } from '../../components/FilterSearch'
 import { PageDefault } from '../../components/PageDefault'
 
 import { GiftProps } from '../../interfaces/props'
 import { dataGifts } from '../../mocks/gifts'
+
+import api from '../../services/api'
 
 import { Container } from './styles'
 
@@ -14,7 +16,12 @@ export function GiftsList() {
 
   useEffect(() => {
     setGifts(dataGifts)
-  })
+  }, [])
+
+  useEffect(() => {
+    api.get('/gift-all').then(response => console.log('response', response))
+  }, [])
+
   return (
     <PageDefault>
       <Container>
