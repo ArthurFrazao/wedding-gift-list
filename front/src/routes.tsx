@@ -3,7 +3,9 @@ import { createBrowserRouter } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Ceremony } from './pages/Ceremony'
 import { GiftsList } from './pages/GiftsList'
-import { PageNotFound } from './components/PageNotFound'
+import { ConfirmPresence } from './pages/ConfirmPresence'
+
+import { PageNotFound } from './pages/PageNotFound'
 
 export const router = createBrowserRouter([
   {
@@ -25,9 +27,9 @@ export const router = createBrowserRouter([
   {
     path: '/category/ceremony',
     element: <Ceremony />
+  },
+  {
+    path: '/category/confirm-presence',
+    element: <ConfirmPresence />
   }
-  // {
-  //   path: '/category/confirm-presence',
-  //   element: <ConfirmPresence />
-  // }
 ])

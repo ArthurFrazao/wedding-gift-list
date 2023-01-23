@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { WarningOctagon } from 'phosphor-react'
 
-import { Button } from '../Button'
+import { Button } from '../../components/Button'
 
 import { Container } from './styles'
 import { useEffect } from 'react'
