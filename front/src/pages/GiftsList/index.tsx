@@ -4,22 +4,21 @@ import { CardGift } from '../../components/CardGift'
 import { FilterSearch } from '../../components/FilterSearch'
 import { PageDefault } from '../../components/PageDefault'
 
-import { GiftProps } from '../../interfaces/props'
-import { dataGifts } from '../../mocks/gifts'
-
 import api from '../../services/api'
+import { GiftProps } from '../../interfaces/props'
 
 import { Container } from './styles'
 
 export function GiftsList() {
   const [gifts, setGifts] = useState<GiftProps[]>([])
 
-  useEffect(() => {
-    setGifts(dataGifts)
-  }, [])
+  useEffect(() => {}, [])
 
   useEffect(() => {
-    api.get('/gift-all').then(response => console.log('response', response))
+    api
+      .get('/gift-all')
+      .then(response => setGifts(response.data))
+      .catch(err => console.error(err))
   }, [])
 
   return (
