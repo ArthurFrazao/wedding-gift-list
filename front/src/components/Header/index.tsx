@@ -22,10 +22,13 @@ export function Header() {
   const location = useLocation()
   const currentPage = location.pathname
 
+  const pathsValidate = ['/home', '/']
   const [showArrowBack, setShowArrowBack] = useState(true)
 
   useEffect(() => {
-    currentPage !== '/home' && setShowArrowBack(false)
+    pathsValidate.includes(currentPage)
+      ? setShowArrowBack(true)
+      : setShowArrowBack(false)
   }, [location])
 
   return (
