@@ -1,6 +1,8 @@
 FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED True
+ENV PROJECT_ID wedding-website2023
+ENV DATASET_ID backend
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
