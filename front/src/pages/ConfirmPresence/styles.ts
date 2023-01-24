@@ -14,18 +14,39 @@ export const Container = styled.div`
     margin-bottom: 3rem;
   }
 
+  b {
+    color: var(--red);
+  }
+
   .content,
   form {
     width: 100%;
   }
 
-  input {
-    height: 2rem;
-    width: 100%;
-
-    padding: 0 10px;
-
-    border: none;
-    border-radius: 0.5rem;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
   }
+
+  button {
+    margin-top: 2rem;
+  }
+`
+
+export const FormInput = styled.input`
+  width: 100%;
+  height: 2rem;
+  padding: 0 10px;
+
+  text-align: start;
+  color: var(--black);
+  background: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+`
+
+export const FormLabel = styled.label`
+  margin: 0.5em;
+  color: var(--black);
 `

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -11,6 +11,7 @@ export const Container = styled.div`
 
   color: #fff;
   font-family: Inter, sans-serif;
+  border: none;
   border-radius: 8px;
   background: var(--blue);
   transition: 0.2s;
