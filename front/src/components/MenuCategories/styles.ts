@@ -37,7 +37,7 @@ export const Container = styled.div`
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
 
     margin-top: 2rem;
