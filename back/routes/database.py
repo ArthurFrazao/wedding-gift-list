@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Union
 from google.cloud import bigquery
-from google.oauth2 import service_account
 import os
 
 class BigQueryClass():
