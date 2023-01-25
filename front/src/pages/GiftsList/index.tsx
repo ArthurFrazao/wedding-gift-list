@@ -16,7 +16,7 @@ export function GiftsList() {
 
   useEffect(() => {
     api
-      .get('/gift-all')
+      .get('/all-gifts')
       .then(response => {
         setGifts(response.data)
         setIsLoading(false)
