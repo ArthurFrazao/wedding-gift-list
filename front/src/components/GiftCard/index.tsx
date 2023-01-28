@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
+
+import { Modal } from '../Modal'
 import { Button } from '../Button'
+import { GiftModal } from '../GiftModal'
 
 import { GiftProps } from '../../interfaces/props'
 
 import { Container } from './styles'
+import { GiftForm } from '../GiftForm'
 
-interface CardGiftProps {
+interface GiftCardProps {
   dataGift: GiftProps
 }
-
-export function CardGift({ dataGift }: CardGiftProps) {
+export function GiftCard({ dataGift }: GiftCardProps) {
   const [showPrice, setShowPrice] = useState(false)
   const [giftImg, setGiftImg] = useState<string>('')
 
@@ -39,7 +42,10 @@ export function CardGift({ dataGift }: CardGiftProps) {
           <Button onClick={handleShowPrice}>Ver preço</Button>
         )}
 
-        <Button>Presentear</Button>
+        <Modal textButton="Presentear">
+          <GiftModal />
+          <GiftForm />
+        </Modal>
       </div>
     </Container>
   )

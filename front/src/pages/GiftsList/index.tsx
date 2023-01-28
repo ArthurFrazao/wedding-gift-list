@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { Loader } from '../../components/Loader'
-import { CardGift } from '../../components/CardGift'
+import { GiftCard } from '../../components/GiftCard'
 import { PageDefault } from '../../components/PageDefault'
 import { FilterSearch } from '../../components/FilterSearch'
 
@@ -41,7 +41,7 @@ export function GiftsList() {
         ) : (
           <div className="listing">
             {gifts?.map(gift => (
-              <CardGift key={gift.id} dataGift={gift} />
+              <GiftCard key={gift.id} dataGift={gift} />
             ))}
           </div>
         )}

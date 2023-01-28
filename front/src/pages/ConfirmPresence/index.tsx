@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Button } from '../../components/Button'
-import { Loader } from '../../components/Loader'
 import { PageDefault } from '../../components/PageDefault'
 
 import { Container, FormInput, FormLabel } from './styles'
@@ -8,12 +7,10 @@ import { Container, FormInput, FormLabel } from './styles'
 export function ConfirmPresence() {
   const [fullName, setFullName] = useState('')
   const [inviteCount, setInviteCount] = useState(0)
-  const [cpf, setCpf] = useState('')
   const [telephone, setTelephone] = useState('')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // add code to handle form submission here
   }
 
   return (
