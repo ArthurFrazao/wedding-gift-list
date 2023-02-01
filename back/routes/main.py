@@ -11,12 +11,12 @@ bigquery = BigQueryClass()
 
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
-    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts`")
+    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts` order by name asc")
     return jsonify(results)
 
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
-    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts` WHERE is_presented is false")
+    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts` WHERE is_presented is false order by name asc")
     return jsonify(results)
 
 @app.after_request
