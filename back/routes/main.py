@@ -25,8 +25,9 @@ def get_gifts_not_presented():
 def update_gift_status():
     if request.json:
         data = request.json
+        print(data)
         try:
-            bigquery.execute_query(query=f"UPDATE backend.gifts SET is_presented is true WHERE id = {data['id']}")
+            bigquery.execute_query(query=f"UPDATE backend.gifts SET is_presented = true WHERE id = {data['id']}")
             return "Gift status updated successfully", 200
         except:
             return "Failed to update gift status", 500
