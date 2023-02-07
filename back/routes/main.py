@@ -1,3 +1,5 @@
+import pandas as pd
+
 from database import BigQueryClass
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -11,13 +13,25 @@ bigquery = BigQueryClass()
 
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
-    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts` order by name asc")
+    results = bigquery.execute_query(query="SELECT * FROM `backend.gifts` order by name asc")
     return jsonify(results)
 
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
-    results = bigquery.execute_query(query="SELECT * FROM `wedding-website2023.backend.gifts` WHERE is_presented is false order by name asc")
+    results = bigquery.execute_query(query="SELECT * FROM `backend.gifts` WHERE is_presented is false order by name asc")
     return jsonify(results)
+
+@app.route("/update-gift-status", methods=["PATCH"])
+def update_gift_status():
+    if request.json:
+        data = request.json
+        try:
+            bigquery.execute_query(query=f"UPDATE backend.gifts SET is_presented is true WHERE id = {data['id']}")
+            return "Gift status updated successfully", 200
+        except:
+            return "Failed to update gift status", 500
+    else:
+        return "No data provided in request body", 400
 
 @app.after_request
 def after_request(response):
