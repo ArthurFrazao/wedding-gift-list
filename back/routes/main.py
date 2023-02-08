@@ -1,5 +1,3 @@
-import pandas as pd
-
 from database import BigQueryClass
 from flask import Flask, jsonify, request
 from flask_cors import CORS
