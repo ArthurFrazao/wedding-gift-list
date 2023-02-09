@@ -19,7 +19,7 @@ def get_gifts_not_presented():
     results = bigquery.execute_query(query="SELECT * FROM `backend.gifts` WHERE is_presented is false order by name asc")
     return jsonify(results)
 
-@app.route("/update-gift-status", methods=["PATCH"])
+@app.route("/update-gift-status", methods=["POST"])
 def update_gift_status():
     if request.json:
         data = request.json
