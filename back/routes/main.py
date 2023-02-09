@@ -11,21 +11,26 @@ bigquery = BigQueryClass()
 
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
-    results = bigquery.execute_query(query="SELECT * FROM `backend.gifts` order by name asc")
+    results = bigquery.execute_query(query="SELECT * FROM backend.gifts ORDER BY name")
     return jsonify(results)
 
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
-    results = bigquery.execute_query(query="SELECT * FROM `backend.gifts` WHERE is_presented is false order by name asc")
+    results = bigquery.execute_query(query="SELECT * FROM backend.gifts WHERE is_presented is false ORDER BY name")
     return jsonify(results)
 
 @app.route("/update-gift-status", methods=["POST"])
 def update_gift_status():
     if request.json:
         data = request.json
-        print(data)
+        data["name"] = data["name"].strip().title()
         try:
-            bigquery.execute_query(query=f"UPDATE backend.gifts SET is_presented = true WHERE id = {data['id']}")
+            bigquery.execute_query(query="UPDATE backend.gifts SET is_presented = true WHERE id = {}".format(
+                data["id"]
+            ))
+            bigquery.execute_query(query="INSERT backend.guests_gifts VALUES({}, '{}')".format(
+                data["id"], data["name"]
+            ))
             return "Gift status updated successfully", 200
         except:
             return "Failed to update gift status", 500
@@ -40,7 +45,6 @@ def after_request(response):
     response.headers["Access-Control-Allow-Headers"] = "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
     return response
 
-## .
 
 if __name__ == "__main__":
     app.run(debug=True)
