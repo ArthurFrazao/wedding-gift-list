@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-export const Container = styled.button`
+interface ButtonProps {
+  disabled?: boolean
+}
+
+export const Container = styled.button<ButtonProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,11 +17,11 @@ export const Container = styled.button`
   font-family: Inter, sans-serif;
   border: none;
   border-radius: 8px;
-  background: var(--blue);
+  background: ${({ disabled }) => (disabled ? '#ccc' : 'var(--blue)')};
   transition: 0.2s;
 
   :hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
     filter: brightness(0.8);
   }
 `

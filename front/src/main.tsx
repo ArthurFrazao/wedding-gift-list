@@ -6,11 +6,14 @@ import { router } from './routes'
 import { ModalProvider } from './context/ModalContext'
 
 import './index.css'
+import { GiftProvider } from './context/GiftContext'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ModalProvider>
-      <RouterProvider router={router} />
-    </ModalProvider>
+    <GiftProvider>
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
+    </GiftProvider>
   </React.StrictMode>
 )

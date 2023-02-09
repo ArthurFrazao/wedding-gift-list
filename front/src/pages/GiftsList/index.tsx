@@ -14,15 +14,31 @@ export function GiftsList() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [gifts, setGifts] = useState<GiftProps[]>([])
 
-  useEffect(() => {
-    api
-      .get('/all-gifts')
-      .then(response => {
-        setGifts(response.data)
-        setIsLoading(false)
-      })
-      .catch(err => console.error(err))
-  }, [])
+  async function listAllGifts() {
+    try {
+      const response = await await api.get('/all-gifts')
+      const allGifts = response.data
+
+      setGifts(allGifts)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function listGiftsNotPresented() {
+    try {
+      const response = await await api.get('/gifts-not-presented')
+      const allGifts = response.data
+
+      setGifts(allGifts)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <PageDefault>
@@ -34,7 +50,10 @@ export function GiftsList() {
           amet tempora delectus debitis explicabo voluptate tempore eligendi
           doloribus eius, labore iusto?
         </span>
-        <FilterSearch />
+        <FilterSearch
+          searchAll={() => listAllGifts()}
+          searchNotPresented={() => listGiftsNotPresented()}
+        />
 
         {isLoading ? (
           <Loader />

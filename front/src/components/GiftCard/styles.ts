@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding: 1rem;
   background-color: white;
 
-  height: 305px;
+  height: 332px;
 
   border-radius: 8px;
   border: 1px solid var(--white);
@@ -19,17 +19,13 @@ export const Container = styled.div`
   -webkit-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
   -moz-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
 
+  h3 {
+    text-align: center;
+  }
+
   img {
     width: 164px;
     height: 164px;
     border-radius: 50%;
-  }
-
-  .group-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    gap: 8px;
   }
 `

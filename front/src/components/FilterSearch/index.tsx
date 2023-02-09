@@ -5,12 +5,19 @@ import { Button } from '../Button'
 
 import { Container, ContainerMobile } from './styles'
 
-function Mobile() {
+interface FilterSearchProps {
+  searchAll?: () => void
+  searchNotPresented?: () => void
+}
+
+function Mobile(props: FilterSearchProps) {
   return (
     <ContainerMobile>
       <div className="group__buttons">
-        <Button>Todos os itens</Button>
-        <Button>Itens não presenteados</Button>
+        <Button onClick={props.searchAll}>Todos os itens</Button>
+        <Button onClick={props.searchNotPresented}>
+          Itens não presenteados
+        </Button>
       </div>
 
       <section className="filter">
@@ -26,12 +33,14 @@ function Mobile() {
   )
 }
 
-function Desktop() {
+function Desktop(props: FilterSearchProps) {
   return (
     <Container>
       <div>
-        <Button>Todos os itens</Button>
-        <Button>Itens não presenteados</Button>
+        <Button onClick={props.searchAll}>Todos os itens</Button>
+        <Button onClick={props.searchNotPresented}>
+          Itens não presenteados
+        </Button>
       </div>
 
       <section className="filter">
@@ -45,7 +54,10 @@ function Desktop() {
   )
 }
 
-export function FilterSearch() {
+export function FilterSearch({
+  searchAll,
+  searchNotPresented
+}: FilterSearchProps) {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -56,5 +68,16 @@ export function FilterSearch() {
     }
   }, [])
 
-  return <>{isMobile ? <Mobile /> : <Desktop />}</>
+  return (
+    <>
+      {isMobile ? (
+        <Mobile searchAll={searchAll} searchNotPresented={searchNotPresented} />
+      ) : (
+        <Desktop
+          searchAll={searchAll}
+          searchNotPresented={searchNotPresented}
+        />
+      )}
+    </>
+  )
 }

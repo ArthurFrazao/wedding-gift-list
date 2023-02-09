@@ -1,5 +1,7 @@
-import { useState, FormEvent, useEffect } from 'react'
-import { useModal } from '../../context/ModalContext'
+import { useState, useEffect } from 'react'
+
+import { useGift } from '../../context/GiftContext'
+import api from '../../services/api'
 
 import {
   Container,
@@ -11,49 +13,44 @@ import {
 } from './styles'
 
 export function GiftForm() {
-  const { setIsOpen } = useModal()
-  const [isShowForm, setIsShowForm] = useState(false)
+  const { giftSelected } = useGift()
+
   const [name, setName] = useState('')
 
-  function handleForm() {
-    setIsShowForm(true)
-  }
+  async function handleForm() {
+    try {
+      const response = await api.post('/update-gift-status', {
+        id: giftSelected,
+        name: name
+      })
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+      console.log(response.data)
+
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <Container>
-      {isShowForm ? (
-        <FormCustom action="" onSubmit={handleSubmit}>
-          <span>Quem está presenteando?</span>
-          <FormInput
-            type="text"
-            placeholder="Insira seu nome completo"
-            value={name}
-            onChange={event => setName(event.target.value)}
-          />
-
-          {name.length > 5 && (
-            <ButtonConfirm
-              onClick={() => {
-                setIsOpen(false)
-              }}
-            >
-              Confirmar
-            </ButtonConfirm>
-          )}
-        </FormCustom>
-      ) : (
-        <>
-          <span>Confirmar presente?</span>
-          <ButtonsGroup>
-            <ButtonConfirm onClick={handleForm}>Confirmar</ButtonConfirm>
-            <ButtonCancel className="cancel">Cancelar</ButtonCancel>
-          </ButtonsGroup>
-        </>
-      )}
+      <FormCustom>
+        <span>Quem está presenteando?</span>
+        <FormInput
+          type="text"
+          placeholder="Insira seu nome completo"
+          value={name}
+          onChange={event => setName(event.target.value)}
+        />
+      </FormCustom>
+      <ButtonsGroup>
+        <ButtonConfirm onClick={handleForm} disabled={name.length < 5}>
+          Confirmar
+        </ButtonConfirm>
+        <ButtonCancel className="cancel">Cancelar</ButtonCancel>
+      </ButtonsGroup>
     </Container>
   )
 }
