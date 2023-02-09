@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
 
   gap: 1rem;
   padding: 1rem;

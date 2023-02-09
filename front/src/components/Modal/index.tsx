@@ -7,7 +7,7 @@ import { useGift } from '../../context/GiftContext'
 
 import { GiftProps } from '../../interfaces/props'
 
-import { ModalWrapper, ModalCard, CloseButton } from './styles'
+import { ContentActions, ModalWrapper, ModalCard, CloseButton } from './styles'
 
 interface ModalProps {
   gift: GiftProps
@@ -40,15 +40,19 @@ export function Modal({ gift, textButton, children }: ModalProps) {
 
   return (
     <>
-      <Button onClick={toggle} disabled={gift?.is_presented}>
-        {textButton}
-      </Button>
-      {gift?.is_presented && (
+      <ContentActions>
+        <Button onClick={toggle} disabled={gift?.is_presented}>
+          {textButton}
+        </Button>
         <span>
-          Esse item nós já ganhamos!{' '}
-          <Heart size={12} weight="fill" color="#c63c3c" />
+          {gift?.is_presented && (
+            <>
+              Esse item nós já ganhamos!{' '}
+              <Heart size={12} weight="fill" color="#c63c3c" />
+            </>
+          )}
         </span>
-      )}
+      </ContentActions>
       {isShowing && (
         <ModalWrapper>
           <ModalCard>

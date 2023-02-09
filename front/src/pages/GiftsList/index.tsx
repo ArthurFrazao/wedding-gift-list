@@ -15,6 +15,7 @@ export function GiftsList() {
   const [gifts, setGifts] = useState<GiftProps[]>([])
 
   async function listAllGifts() {
+    setIsLoading(true)
     try {
       const response = await await api.get('/all-gifts')
       const allGifts = response.data
@@ -28,6 +29,7 @@ export function GiftsList() {
   }
 
   async function listGiftsNotPresented() {
+    setIsLoading(true)
     try {
       const response = await await api.get('/gifts-not-presented')
       const allGifts = response.data
@@ -39,6 +41,10 @@ export function GiftsList() {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    listAllGifts()
+  }, [])
 
   return (
     <PageDefault>
