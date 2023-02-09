@@ -40,6 +40,7 @@ def after_request(response):
     response.headers["Access-Control-Allow-Headers"] = "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
     return response
 
+## .
 
 if __name__ == "__main__":
     app.run(debug=True)
