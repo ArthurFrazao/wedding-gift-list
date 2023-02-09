@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Heart, XCircle } from 'phosphor-react'
 
 import { Button } from '../Button'
+
 import { useModal } from '../../context/ModalContext'
 import { useGift } from '../../context/GiftContext'
 
@@ -16,10 +17,16 @@ interface ModalProps {
 }
 
 export function Modal({ gift, textButton, children }: ModalProps) {
-  const { isOpen, setIsOpen } = useModal()
+  const { isOpen, setIsOpen, isWaiting } = useModal()
   const { setGiftSelected } = useGift()
 
   const [isShowing, setIsShowing] = useState(false)
+
+  document.addEventListener('keydown', ({ key }) => {
+    if (key === 'Escape') {
+      setIsOpen(false)
+    }
+  })
 
   function toggle() {
     setIsOpen(!isShowing)
@@ -54,7 +61,7 @@ export function Modal({ gift, textButton, children }: ModalProps) {
         </span>
       </ContentActions>
       {isShowing && (
-        <ModalWrapper>
+        <ModalWrapper cursorLoader={isWaiting}>
           <ModalCard>
             <CloseButton onClick={toggle}>
               <XCircle size={32} color="#91b696" />

@@ -9,6 +9,8 @@ import React, {
 type ModalContextData = {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
+  isWaiting: boolean
+  setIsWaiting: Dispatch<SetStateAction<boolean>>
 }
 
 type ModalProviderProps = {
@@ -19,12 +21,15 @@ export const ModalContext = React.createContext({} as ModalContextData)
 
 export function ModalProvider({ children }: ModalProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isWaiting, setIsWaiting] = useState(false)
 
   return (
     <ModalContext.Provider
       value={{
         isOpen,
-        setIsOpen
+        setIsOpen,
+        isWaiting,
+        setIsWaiting
       }}
     >
       {children}

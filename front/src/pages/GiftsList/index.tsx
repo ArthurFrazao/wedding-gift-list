@@ -22,7 +22,7 @@ export function GiftsList() {
 
       setGifts(allGifts)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setIsLoading(false)
     }
@@ -36,7 +36,7 @@ export function GiftsList() {
 
       setGifts(allGifts)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setIsLoading(false)
     }

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import { useGift } from '../../context/GiftContext'
+import { useModal } from '../../context/ModalContext'
+
 import api from '../../services/api'
 
 import {
@@ -14,17 +16,18 @@ import {
 
 export function GiftForm() {
   const { giftSelected } = useGift()
+  const { setIsOpen, setIsWaiting } = useModal()
 
   const [name, setName] = useState('')
 
   async function handleForm() {
+    setIsWaiting(true)
+
     try {
-      const response = await api.post('/update-gift-status', {
+      await api.post('/update-gift-status', {
         id: giftSelected,
         name: name
       })
-
-      console.log(response.data)
 
       setTimeout(() => {
         location.reload()
@@ -49,7 +52,9 @@ export function GiftForm() {
         <ButtonConfirm onClick={handleForm} disabled={name.length < 5}>
           Confirmar
         </ButtonConfirm>
-        <ButtonCancel className="cancel">Cancelar</ButtonCancel>
+        <ButtonCancel onClick={() => setIsOpen(false)} className="cancel">
+          Cancelar
+        </ButtonCancel>
       </ButtonsGroup>
     </Container>
   )

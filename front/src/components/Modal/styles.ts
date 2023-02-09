@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+interface ModalProps {
+  cursorLoader?: boolean
+}
+
 export const ContentActions = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
@@ -7,16 +11,17 @@ export const ContentActions = styled.div`
   justify-items: center;
 `
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled.div<ModalProps>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: ${props => (props.cursorLoader ? 'wait' : 'default')};
 `
 
 export const ModalCard = styled.div`
@@ -27,7 +32,7 @@ export const ModalCard = styled.div`
   background-color: white;
   padding: 1rem;
   border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 `
 
 export const CloseButton = styled.button`
