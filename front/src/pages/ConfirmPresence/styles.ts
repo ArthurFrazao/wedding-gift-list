@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Select from 'react-select'
 
 export const Container = styled.div`
   width: 100%;
@@ -49,4 +50,12 @@ export const FormInput = styled.input`
 export const FormLabel = styled.label`
   margin: 0.5em;
   color: var(--black);
+`
+
+export const Autocomplete = styled(Select)`
+  width: 100%;
+
+  > div {
+    border-radius: 0.5rem !important;
+  }
 `
