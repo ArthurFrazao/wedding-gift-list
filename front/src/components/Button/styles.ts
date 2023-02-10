@@ -14,7 +14,7 @@ export const Container = styled.button<ButtonProps>`
   width: fit-content;
 
   color: #fff;
-  font-family: Inter, sans-serif;
+  font-family: 'Lato', sans-serif;
   border: none;
   border-radius: 8px;
   background: ${({ disabled }) => (disabled ? '#ccc' : 'var(--blue)')};

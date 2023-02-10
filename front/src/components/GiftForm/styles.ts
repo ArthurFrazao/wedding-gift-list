@@ -13,7 +13,7 @@ export const Container = styled.div`
     width: fit-content;
     padding: 8px 16px;
     border-radius: 8px;
-    font-family: Inter, sans-serif;
+    font-family: 'Lato', sans-serif;
   }
 
   button:hover {
