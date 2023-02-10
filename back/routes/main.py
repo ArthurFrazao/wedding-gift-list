@@ -37,6 +37,27 @@ def update_gift_status():
     else:
         return "No data provided in request body", 400
 
+@app.route("/guests-representants", methods=["GET"])
+def get_guests_representants():
+    results = bigquery.execute_query(query="SELECT id, name, invitations FROM backend.guests_representants ORDER BY name")
+    return jsonify(results)
+
+@app.route("/update-guests-list", methods=["POST"])
+def update_guests():
+    if request.json:
+        data = request.json()
+        data["name"] = data["name"].strip().title()
+        try:
+            bigquery.execute_query(query="INSERT backend.guests VALUES((SELECT count(*)+1 from backend.guests), {}, '{}', {})".format(
+                data["id"], data["name"], data["age"]
+            ))
+
+            return "Presence confirmed successfully", 200
+        except:
+            return "Failed to confirm presence", 500
+    else:
+        return "No data provided in request body", 400
+
 @app.after_request
 def after_request(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
