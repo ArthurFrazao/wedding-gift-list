@@ -5,42 +5,57 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+"""
+The Flask-CORS library is being used to enable access from another domain to the API,
+which is useful in scenarios where the application and the client are in different domains.
+"""
 cors = CORS(app, resources={"*": {"origins": "http://localhost:port"}})
 
 bigquery = BigQueryClass()
 
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
-    results = bigquery.execute_query(query="SELECT * FROM backend.gifts ORDER BY name")
-    return jsonify(results)
+    try:
+        results = bigquery.execute_query(query="SELECT * FROM backend.gifts ORDER BY name")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify(results), 200
 
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
-    results = bigquery.execute_query(query="SELECT * FROM backend.gifts WHERE is_presented is false ORDER BY name")
-    return jsonify(results)
-
-@app.route("/update-gift-status", methods=["POST"])
-def update_gift_status():
-    if request.json:
-        data = request.json
-        data["name"] = data["name"].strip().title()
-        try:
-            bigquery.execute_query(query="UPDATE backend.gifts SET is_presented = true WHERE id = {}".format(
-                data["id"]
-            ))
-            bigquery.execute_query(query="INSERT backend.guests_gifts VALUES({}, '{}')".format(
-                data["id"], data["name"]
-            ))
-            return "Gift status updated successfully", 200
-        except:
-            return "Failed to update gift status", 500
-    else:
-        return "No data provided in request body", 400
+    try:
+        results = bigquery.execute_query(query="SELECT * FROM backend.gifts WHERE is_presented is false ORDER BY name")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify(results), 200
 
 @app.route("/guests-representants", methods=["GET"])
 def get_guests_representants():
-    results = bigquery.execute_query(query="SELECT id, name, invitations FROM backend.guests_representants ORDER BY name")
-    return jsonify(results)
+    try:
+        results = bigquery.execute_query(query="SELECT id, name, invitations FROM backend.guests_representants ORDER BY name")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify(results), 200
+
+@app.route("/update-gift-status", methods=["POST"])
+def update_gift_status():
+    if not request.json:
+        return jsonify({"error": "no data provided in request body"}), 400
+
+    try:
+        data = request.json
+        guest_name = data["name"] = data["name"].strip().title()
+        gift_id = data["id"]
+    except KeyError as e:
+        return jsonify({"error": f"the field {e} is required"}), 400
+
+    try:
+        bigquery.execute_query(query=f"UPDATE backend.gifts SET is_presented = true WHERE id = {gift_id}")
+        bigquery.execute_query(query=f"INSERT backend.guests_gifts VALUES({gift_id}, '{guest_name}')")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 50
+
+    return jsonify({"message": "gift status updated successfully"}), 200
 
 @app.route("/update-guests-list", methods=["POST"])
 def update_guests():
@@ -52,11 +67,11 @@ def update_guests():
                 data["id"], data["name"], data["age"]
             ))
 
-            return "Presence confirmed successfully", 200
-        except:
-            return "Failed to confirm presence", 500
+            return jsonify({"message": "Presence confirmed successfully"}), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
     else:
-        return "No data provided in request body", 400
+        return jsonify({"error": "No data provided in request body"}), 400
 
 @app.after_request
 def after_request(response):
