@@ -14,6 +14,20 @@ export function GiftsList() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [gifts, setGifts] = useState<GiftProps[]>([])
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
+      const filteredGifts = gifts.filter(gift => {
+        return gift.name
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
+      })
+
+      setGifts(filteredGifts)
+    } else {
+      listAllGifts()
+    }
+  }
+
   async function listAllGifts() {
     setIsLoading(true)
     try {
@@ -59,6 +73,10 @@ export function GiftsList() {
         <FilterSearch
           searchAll={() => listAllGifts()}
           searchNotPresented={() => listGiftsNotPresented()}
+          filterInput={event => {
+            console.log(event.target.value)
+            handleInputChange(event)
+          }}
         />
 
         {isLoading ? (

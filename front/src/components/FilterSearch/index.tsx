@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEventHandler } from 'react'
 import { FadersHorizontal } from 'phosphor-react'
 
 import { Button } from '../Button'
@@ -8,6 +8,7 @@ import { Container, ContainerMobile } from './styles'
 interface FilterSearchProps {
   searchAll?: () => void
   searchNotPresented?: () => void
+  filterInput?: ChangeEventHandler<HTMLInputElement>
 }
 
 function Mobile(props: FilterSearchProps) {
@@ -22,7 +23,11 @@ function Mobile(props: FilterSearchProps) {
 
       <section className="filter">
         <div className="field__search">
-          <input type="text" placeholder="Buscar presente pelo nome" />
+          <input
+            type="text"
+            placeholder="Buscar presente pelo nome"
+            onChange={props.filterInput}
+          />
           <span role="button">
             <FadersHorizontal size={32} />
           </span>
@@ -45,7 +50,11 @@ function Desktop(props: FilterSearchProps) {
 
       <section className="filter">
         <Button>Adicionar sugestão</Button>
-        <input type="text" placeholder="Buscar presente pelo nome" />
+        <input
+          type="text"
+          placeholder="Buscar presente pelo nome"
+          onChange={props.filterInput}
+        />
         <span role="button">
           <FadersHorizontal size={32} />
         </span>
@@ -56,7 +65,8 @@ function Desktop(props: FilterSearchProps) {
 
 export function FilterSearch({
   searchAll,
-  searchNotPresented
+  searchNotPresented,
+  filterInput
 }: FilterSearchProps) {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -71,11 +81,16 @@ export function FilterSearch({
   return (
     <>
       {isMobile ? (
-        <Mobile searchAll={searchAll} searchNotPresented={searchNotPresented} />
+        <Mobile
+          searchAll={searchAll}
+          searchNotPresented={searchNotPresented}
+          filterInput={filterInput}
+        />
       ) : (
         <Desktop
           searchAll={searchAll}
           searchNotPresented={searchNotPresented}
+          filterInput={filterInput}
         />
       )}
     </>
