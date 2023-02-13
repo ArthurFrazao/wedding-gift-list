@@ -57,21 +57,27 @@ def update_gift_status():
 
     return jsonify({"message": "gift status updated successfully"}), 200
 
-@app.route("/update-guests-list", methods=["POST"])
-def update_guests():
-    if request.json:
-        data = request.json()
-        data["name"] = data["name"].strip().title()
-        try:
-            bigquery.execute_query(query="INSERT backend.guests VALUES((SELECT count(*)+1 from backend.guests), {}, '{}', {})".format(
-                data["id"], data["name"], data["age"]
+@app.route("/confirm-presence", methods=["POST"])
+def confirme_presence():
+    if not request.json:
+        return jsonify({"error": "No data provided in request body"}), 400
+
+    try:
+        data = request.json
+        id_representant = data["id_representant"]
+
+        for guest in data["names_invitations"]:
+            guest_name = guest["name"].strip().title()
+
+            bigquery.execute_query(query="INSERT backend.guests VALUES({}, {}, '{}', {}, {})".format(
+                "(SELECT count(*)+1 from backend.guests)", id_representant, guest_name, guest["age"], guest["is_confirmed"]
             ))
 
-            return jsonify({"message": "Presence confirmed successfully"}), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    else:
-        return jsonify({"error": "No data provided in request body"}), 400
+        return jsonify({"message": "Presence confirmed successfully"}), 200
+    except KeyError as e:
+        return jsonify({"error": f"the field {e} is required"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.after_request
 def after_request(response):
