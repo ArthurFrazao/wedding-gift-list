@@ -1,9 +1,6 @@
 from database import BigQueryClass
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import logging
-
-logging.basicConfig(format='%(levelname)s: %(message)s')
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -63,9 +60,7 @@ def update_gift_status():
 @app.route("/confirm-presence", methods=["POST"])
 def confirme_presence():
     if not request.json:
-        message = "No data provided in request body"
-        logging.error(message)
-        return jsonify({"error": message}), 400
+        return jsonify({"error": "No data provided in request body"}), 400
 
     try:
         data = request.json
@@ -78,17 +73,11 @@ def confirme_presence():
                 "(SELECT count(*)+1 from backend.guests)", id_representant, guest_name, guest["age"], guest["is_confirmed"]
             ))
 
-        message = "Presence confirmed successfully"
-        logging.info(message)
-        return jsonify({"message": message}), 200
+        return jsonify({"message": "Presence confirmed successfully"}), 200
     except KeyError as e:
-        message = f"the field {e} is required"
-        logging.error(message)
-        return jsonify({"error": message}), 400
+        return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
-        message = str(e)
-        logging.error(message)
-        return jsonify({"error": message}), 500
+        return jsonify({"error": str(e)}), 500
 
 @app.after_request
 def after_request(response):
