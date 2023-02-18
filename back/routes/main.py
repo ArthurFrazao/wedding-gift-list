@@ -13,6 +13,7 @@ cors = CORS(app, resources={"*": {"origins": "http://localhost:port"}})
 
 bigquery = BigQueryClass()
 
+
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
     try:
@@ -20,6 +21,7 @@ def get_all_gifts():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
+
 
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
@@ -29,13 +31,16 @@ def get_gifts_not_presented():
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
 
+
 @app.route("/guests-representants", methods=["GET"])
 def get_guests_representants():
     try:
-        results = bigquery.execute_query(query="SELECT id, name, invitations FROM backend.guests_representants ORDER BY name")
+        results = bigquery.execute_query(
+            query="SELECT id, name, invitations FROM backend.guests_representants ORDER BY name")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
+
 
 @app.route("/update-gift-status", methods=["POST"])
 def update_gift_status():
@@ -57,8 +62,9 @@ def update_gift_status():
 
     return jsonify({"message": "gift status updated successfully"}), 200
 
+
 @app.route("/confirm-presence", methods=["POST"])
-def confirme_presence():
+def confirm_presence():
     if not request.json:
         return jsonify({"error": "No data provided in request body"}), 400
 
@@ -70,7 +76,8 @@ def confirme_presence():
             guest_name = guest["name"].strip().title()
 
             bigquery.execute_query(query="INSERT backend.guests VALUES({}, {}, '{}', {}, {})".format(
-                "(SELECT count(*)+1 from backend.guests)", id_representant, guest_name, guest["age"], guest["is_confirmed"]
+                    "(SELECT count(*)+1 from backend.guests)", id_representant, guest_name, guest["age"],
+                    guest["is_confirmed"]
             ))
 
         return jsonify({"message": "Presence confirmed successfully"}), 200
@@ -79,12 +86,15 @@ def confirme_presence():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @app.after_request
 def after_request(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Credentials"] = "true"
     response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, PUT, DELETE"
-    response.headers["Access-Control-Allow-Headers"] = "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
+    response.headers[
+        "Access-Control-Allow-Headers"] = "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, " \
+                                          "Authorization"
     return response
 
 
