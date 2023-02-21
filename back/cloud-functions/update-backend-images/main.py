@@ -1,10 +1,11 @@
 from google.cloud import storage, bigquery
 
+
 def main(event, context):
     """Triggered by a change to a Cloud Storage bucket.
     Parameters:
-        event (dict): Event payload.
-        context (google.cloud.functions.Context): Metadata for the event.
+        - event (dict): Event payload.
+        - context (google.cloud.functions.Context): Metadata for the event.
 
     Returns:
         None
@@ -22,14 +23,14 @@ def main(event, context):
     insert_item_bigquery(file_name_without_ext, obj_public_url)
 
 
-def make_blob_public(bucket_name:str, blob_name:str) -> str:
+def make_blob_public(bucket_name: str, blob_name: str) -> str:
     """Make a Cloud Storage object public by editing its metadata access
     Parameters:
-        bucket_name (str): Name of the bucket that contains the object
-        blob_name (str): Name of the object
+        - bucket_name (str): Name of the bucket that contains the object
+        - blob_name (str): Name of the object
 
     Returns:
-        str: Public URL of the object
+        - str: Public URL of the object
     """
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
@@ -37,25 +38,24 @@ def make_blob_public(bucket_name:str, blob_name:str) -> str:
 
     blob.make_public()
     print(
-        f"Blob {blob.name} is publicly accessible at {blob.public_url}"
+            f"Blob {blob.name} is publicly accessible at {blob.public_url}"
     )
 
     return blob.public_url
 
 
-def insert_item_bigquery(file_name_without_ext:str, obj_public_url:str):
+def insert_item_bigquery(file_name_without_ext: str, obj_public_url: str):
     """Insert item information into BigQuery table 'gifts'.
-
     The function merges the 'gifts' table with a select statement that generates new item information, with:
-    - 'id' being the max value in the 'gifts' table plus 1,
-    - 'name' being the input 'file_name_without_ext',
-    - 'image_url' being the input 'obj_public_url',
-    - 'is_presented' being False.
+        - 'id' being the max value in the 'gifts' table plus 1,
+        - 'name' being the input 'file_name_without_ext',
+        - 'image_url' being the input 'obj_public_url',
+        - 'is_presented' being False.
     If the 'name' of the item already exists in the 'gifts' table, the row will not be inserted.
 
     Parameters:
-        file_name_without_ext (str): The name of the item without its file extension.
-        obj_public_url (str): The public URL of the item's image.
+        - file_name_without_ext (str): The name of the item without its file extension.
+        - obj_public_url (str): The public URL of the item's image.
 
     Returns:
         None
@@ -79,6 +79,7 @@ def insert_item_bigquery(file_name_without_ext:str, obj_public_url:str):
     INSERT ROW
     """
     try:
+        print(query)
         bigquery_client.query(query=query)
     except Exception as error:
         print("error:", error)
