@@ -36,7 +36,7 @@ def get_gift_link(id_gift):
 def get_page_description(page):
     try:
         results = bigquery.execute_query(
-                query=f"SELECT description FROM backend.pages_description WHERE page = '{page}'")
+                query=f"SELECT description FROM backend.pages_description WHERE name = '{page}'")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
