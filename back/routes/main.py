@@ -39,7 +39,7 @@ def get_page_description(page):
                 query=f"SELECT description FROM backend.pages_description WHERE name = '{page}'")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    return jsonify(results), 200
+    return results[0]["description"], 200
 
 
 @app.route("/gifts-not-presented", methods=["GET"])
