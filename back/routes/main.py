@@ -23,10 +23,20 @@ def get_all_gifts():
     return jsonify(results), 200
 
 
-@app.route("/get_gift_link/<id_gift>", methods=["GET"])
+@app.route("/get-gift-link/<id_gift>", methods=["GET"])
 def get_gift_link(id_gift):
     try:
         results = bigquery.execute_query(query=f"SELECT links FROM backend.gift_links WHERE id_gifts = {id_gift}")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify(results), 200
+
+
+@app.route("/get-page-description/<page>", methods=["GET"])
+def get_page_description(page):
+    try:
+        results = bigquery.execute_query(
+                query=f"SELECT description FROM backend.pages_description WHERE page = '{page}'")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
