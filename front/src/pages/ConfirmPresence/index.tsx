@@ -13,31 +13,32 @@ export function ConfirmPresence() {
   const [idRepresentant, setIdRepresentant] = useState<number>(0)
   const [nameRepresentant, setNameRepresentant] = useState<string>('')
   const [isListingGuests, setIsListingGuests] = useState([])
-  const [inviteCount, setInviteCount] = useState(0)
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
 
-    const dataConfirmPresence = {
-      id: idRepresentant,
-      isConfirmed: true,
-      namesInvitations: [
+    const confirmPresence = {
+      id_representant: idRepresentant,
+      names_invitations: [
         {
           name: nameRepresentant,
-          isConfirmed: true,
-          age: 23
+          is_confirmed: true,
+          age: idRepresentant
         }
       ]
     }
 
-    console.log(dataConfirmPresence)
-
-    // api
-    //   .post('/confirm-presence', { body: dataConfirmPresence })
-    //   .then(() => console.log(dataConfirmPresence))
-    //   .catch(error => {
-    //     console.error(error)
-    //   })
+    try {
+      api
+        .post('/confirm-presence', confirmPresence, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => console.log(response))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async function listAllGuests() {
@@ -62,15 +63,7 @@ export function ConfirmPresence() {
 
   useEffect(() => {
     listAllGuests()
-
-    console.log()
   }, [])
-
-  const options = [
-    { value: 'chocolate', name: 'Chocolate' },
-    { value: 'strawberry', name: 'Strawberry' },
-    { value: 'vanilla', name: 'Vanilla' }
-  ]
 
   return (
     <PageDefault>
@@ -86,7 +79,6 @@ export function ConfirmPresence() {
             onChange={event => {
               setIdRepresentant(event?.id)
               setNameRepresentant(event?.name)
-              console.log(event?.id)
             }}
             placeholder="Digite seu nome completo..."
           />
@@ -94,13 +86,7 @@ export function ConfirmPresence() {
           <FormLabel htmlFor="invitations">
             Quantidade de convites: <b>*</b>
           </FormLabel>
-          <FormInput
-            type="number"
-            value={inviteCount}
-            onChange={event => setInviteCount(Number(event.target.value))}
-            required
-            disabled
-          />
+          <FormInput type="number" disabled />
           <Button type="submit">Enviar</Button>
         </form>
       </Container>

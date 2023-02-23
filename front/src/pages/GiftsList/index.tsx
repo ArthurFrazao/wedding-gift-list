@@ -13,6 +13,7 @@ import { Container } from './styles'
 export function GiftsList() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [gifts, setGifts] = useState<GiftProps[]>([])
+  const [description, setDescription] = useState<string>('')
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
@@ -25,6 +26,20 @@ export function GiftsList() {
       setGifts(filteredGifts)
     } else {
       listAllGifts()
+    }
+  }
+
+  async function listDescription() {
+    setIsLoading(true)
+    try {
+      const response = await await api.get('/get-page-description/gift-list')
+      const description = response.data
+
+      setDescription(description)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -57,6 +72,7 @@ export function GiftsList() {
   }
 
   useEffect(() => {
+    listDescription()
     listAllGifts()
   }, [])
 
@@ -64,17 +80,11 @@ export function GiftsList() {
     <PageDefault>
       <Container>
         <h1>Lista de presentes</h1>
-        <span>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic
-          voluptatibus commodi perferendis error harum sint facilis dolorem quod
-          amet tempora delectus debitis explicabo voluptate tempore eligendi
-          doloribus eius, labore iusto?
-        </span>
+        <span dangerouslySetInnerHTML={{ __html: description }} />
         <FilterSearch
           searchAll={() => listAllGifts()}
           searchNotPresented={() => listGiftsNotPresented()}
           filterInput={event => {
-            console.log(event.target.value)
             handleInputChange(event)
           }}
         />
