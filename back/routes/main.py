@@ -29,7 +29,7 @@ def get_gift_link(id_gift):
         results = bigquery.execute_query(query=f"SELECT links FROM backend.gift_links WHERE id_gifts = {id_gift}")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    return jsonify(results), 200
+    return jsonify(results[0]["links"]), 200
 
 
 @app.route("/get-page-description/<page>", methods=["GET"])
