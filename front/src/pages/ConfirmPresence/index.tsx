@@ -77,8 +77,9 @@ export function ConfirmPresence() {
             id="representant"
             options={isListingGuests}
             onChange={event => {
-              setIdRepresentant(event?.id)
-              setNameRepresentant(event?.name)
+              // setIdRepresentant(event?.id)
+              // setNameRepresentant(event?.name)
+              console.log(event)
             }}
             placeholder="Digite seu nome completo..."
           />
