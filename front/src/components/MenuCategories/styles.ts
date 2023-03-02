@@ -10,14 +10,12 @@ export const Container = styled.div`
   gap: 100px;
 
   a {
-    text-decoration: none;
-    color: var(--black);
-  }
-
-  .item {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    text-decoration: none;
+    color: var(--black);
 
     gap: 1.5rem;
 
@@ -28,9 +26,16 @@ export const Container = styled.div`
   }
 
   .icon {
-    background-color: var(--white);
+    background-image: url('/assets/border-flowers-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     border-radius: 50%;
-    padding: 1rem;
+    padding: 2rem;
+  }
+
+  .icon svg {
+    padding: 0.5rem;
   }
 
   @media (max-width: 768px) {
@@ -43,7 +48,7 @@ export const Container = styled.div`
     margin-top: 2rem;
     gap: 1rem;
 
-    .item {
+    a {
       display: flex;
       flex-direction: column;
       align-items: center;

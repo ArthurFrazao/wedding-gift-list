@@ -6,6 +6,8 @@ import { PageDefault } from '../../components/PageDefault'
 
 import api from '../../services/api'
 
+import { ContentLoveStory } from './styles'
+
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [description, setDescription] = useState<string>('')
@@ -15,8 +17,6 @@ export function Home() {
     try {
       const response = await await api.get('/get-page-description/home')
       const description = response.data
-
-      console.log(description)
 
       setDescription(description)
     } catch (error) {
@@ -36,6 +36,39 @@ export function Home() {
     <div>
       <PageDefault>
         <HeroCard description={description} />
+
+        <ContentLoveStory>
+          <h2>Nossa história de amor</h2>
+
+          <div className="itens">
+            <div className="item">
+              <span>15/02/2020</span>
+              <span className="title">Nos conhecemos</span>
+              <span className="description">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci rem velit minus unde doloribus voluptates eveniet.
+              </span>
+            </div>
+
+            <div className="item">
+              <span>15/02/2020</span>
+              <span className="title">Começamos a namorar</span>
+              <span className="description">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci rem velit minus unde doloribus voluptates eveniet.
+              </span>
+            </div>
+
+            <div className="item">
+              <span>15/02/2020</span>
+              <span className="title">Noivamos</span>
+              <span className="description">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci rem velit minus unde doloribus voluptates eveniet.
+              </span>
+            </div>
+          </div>
+        </ContentLoveStory>
       </PageDefault>
     </div>
   )

@@ -1,5 +1,4 @@
 import { useState, useEffect, ChangeEventHandler } from 'react'
-import { FadersHorizontal } from 'phosphor-react'
 
 import { Button } from '../Button'
 
@@ -28,9 +27,6 @@ function Mobile(props: FilterSearchProps) {
             placeholder="Buscar presente pelo nome"
             onChange={props.filterInput}
           />
-          <span role="button">
-            <FadersHorizontal size={32} />
-          </span>
         </div>
         <Button>Adicionar sugestão</Button>
       </section>
@@ -55,9 +51,6 @@ function Desktop(props: FilterSearchProps) {
           placeholder="Buscar presente pelo nome"
           onChange={props.filterInput}
         />
-        <span role="button">
-          <FadersHorizontal size={32} />
-        </span>
       </section>
     </Container>
   )

@@ -79,7 +79,6 @@ export function ConfirmPresence() {
             onChange={event => {
               // setIdRepresentant(event?.id)
               // setNameRepresentant(event?.name)
-              console.log(event)
             }}
             placeholder="Digite seu nome completo..."
           />
