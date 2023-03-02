@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-items: stretch;
 
-  height: 80vh;
+  height: 70vh;
 
   .description {
     display: flex;
