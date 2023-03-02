@@ -36,4 +36,16 @@ export const ContentLoveStory = styled.div`
 
     text-align: center;
   }
+
+  @media (max-width: 768px) {
+    h2 {
+      margin-top: 4rem;
+    }
+
+    .itens {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
 `
