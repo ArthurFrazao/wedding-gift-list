@@ -110,6 +110,43 @@ def confirm_presence():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/give-suggestion", methods=["POST"])
+def give_suggestion():
+    if not request.json:
+        return jsonify({"error": "no data provided in request body"}), 400
+    try:
+        data = request.json
+        product_name = data["name"].strip().title()
+        product_url = data["url"].strip()
+
+        query = f"""
+        MERGE
+            backend.gifts as T
+        USING
+        (
+        SELECT
+            MAX(id)+1 as id,
+            '{product_name}' as name,
+            '{product_url}' as image_url,
+            {False} as is_presented
+        FROM
+        backend.gifts
+        ) as S
+        ON T.name = S.name
+        WHEN NOT MATCHED THEN
+        INSERT ROW
+        """
+        bigquery.execute_query(query)
+
+        return jsonify({"message": "Suggestion confirmed successfully"}), 200
+
+    except KeyError as e:
+        return jsonify({"error": f"the field {e} is required"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
 @app.after_request
 def after_request(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
