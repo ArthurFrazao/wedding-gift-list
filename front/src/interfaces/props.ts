@@ -11,3 +11,11 @@ export interface CategoryProps {
   name: string
   description: string
 }
+
+export interface LoveStoryProps {
+  id: number
+  date: Date
+  title: string
+  description: string
+  icon_url: string
+}

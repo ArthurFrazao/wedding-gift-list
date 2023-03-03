@@ -12,9 +12,10 @@ export const ContentLoveStory = styled.div`
   }
 
   .itens {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .item {

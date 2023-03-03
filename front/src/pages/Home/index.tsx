@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
+import { format } from 'date-fns'
 
 import { Loader } from '../../components/Loader'
 import { HeroCard } from '../../components/HeroCard'
 import { PageDefault } from '../../components/PageDefault'
 
 import api from '../../services/api'
+import { LoveStoryProps } from '../../interfaces/props'
 
 import { ContentLoveStory } from './styles'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [description, setDescription] = useState<string>('')
+  const [stepsLoveStory, setStepsLoveStory] = useState<LoveStoryProps[]>([])
 
   async function listDescription() {
     setIsLoading(true)
@@ -26,8 +29,23 @@ export function Home() {
     }
   }
 
+  async function getDetailsLoveStory() {
+    setIsLoading(true)
+    try {
+      const response = await await api.get('/get-love-story')
+      const itensLoveStory = response.data
+
+      setStepsLoveStory(itensLoveStory)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
     listDescription()
+    getDetailsLoveStory()
   }, [])
 
   if (isLoading) return <Loader />
@@ -41,32 +59,15 @@ export function Home() {
           <h2>Nossa história de amor</h2>
 
           <div className="itens">
-            <div className="item">
-              <span>15/02/2020</span>
-              <span className="title">Nos conhecemos</span>
-              <span className="description">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci rem velit minus unde doloribus voluptates eveniet.
-              </span>
-            </div>
+            {stepsLoveStory.map(item => (
+              <div className="item" key={item.id}>
+                <span>{format(new Date(item.date), 'dd/MM/yyyy')}</span>
 
-            <div className="item">
-              <span>15/02/2020</span>
-              <span className="title">Começamos a namorar</span>
-              <span className="description">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci rem velit minus unde doloribus voluptates eveniet.
-              </span>
-            </div>
-
-            <div className="item">
-              <span>15/02/2020</span>
-              <span className="title">Noivamos</span>
-              <span className="description">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci rem velit minus unde doloribus voluptates eveniet.
-              </span>
-            </div>
+                <img src={item.icon_url} alt={`Ícone ${item.title}`} />
+                <span className="title">{item.title}</span>
+                <span className="description">{item.description}</span>
+              </div>
+            ))}
           </div>
         </ContentLoveStory>
       </PageDefault>
