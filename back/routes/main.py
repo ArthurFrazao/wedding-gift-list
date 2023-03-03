@@ -46,6 +46,17 @@ def get_page_description(page):
     return results[0]["description"], 200
 
 
+@app.route("/get-love-story", methods=["GET"])
+def get_love_story():
+    try:
+        results = bigquery.execute_query(
+            query="SELECT id, title, date, description from backend.love_story_description"
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify(results), 200
+
+
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
     try:
