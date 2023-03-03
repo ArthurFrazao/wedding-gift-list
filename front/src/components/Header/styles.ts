@@ -4,7 +4,6 @@ export const Container = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
 
   position: fixed;
 
@@ -15,12 +14,6 @@ export const Container = styled.header`
   box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
   -webkit-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
   -moz-box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
-
-  .main {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-  }
 
   a {
     text-decoration: none;

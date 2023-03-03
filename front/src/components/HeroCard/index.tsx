@@ -4,6 +4,7 @@ import { Button } from '../Button'
 import { MenuCategories } from '../MenuCategories'
 
 import { Container } from './styles'
+import { Countdown } from '../Countdown'
 
 interface HeroCardProps {
   description: string
@@ -28,7 +29,10 @@ export function HeroCard({ description }: HeroCardProps) {
         </Button>
       </div>
 
-      <MenuCategories />
+      <section>
+        <MenuCategories />
+        <Countdown />
+      </section>
     </Container>
   )
 }

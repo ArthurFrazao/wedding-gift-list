@@ -33,8 +33,23 @@ export function Countdown() {
   return (
     <Container>
       <div>
-        Faltam {timeLeft.days} dias {timeLeft.hours} horas {timeLeft.minutes}{' '}
-        minutos e {timeLeft.seconds} segundos
+        <div className="item-date">
+          {' '}
+          <span className="number">{timeLeft.days}</span>dias<span></span>{' '}
+        </div>
+        <div className="item-date">
+          {' '}
+          <span className="number">{timeLeft.hours}</span>horas<span></span>{' '}
+        </div>
+        <div className="item-date">
+          {' '}
+          <span className="number">{timeLeft.minutes}</span>minutos<span></span>{' '}
+        </div>
+        <div className="item-date">
+          {' '}
+          <span className="number">{timeLeft.seconds}</span>segundos
+          <span></span>{' '}
+        </div>
       </div>
     </Container>
   )

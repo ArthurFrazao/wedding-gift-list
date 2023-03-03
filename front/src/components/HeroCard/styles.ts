@@ -21,6 +21,13 @@ export const Container = styled.div`
     }
   }
 
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+  }
+
   @media (max-width: 768px) {
     height: 100%;
     margin-top: 5rem;
