@@ -50,7 +50,7 @@ def get_page_description(page):
 def get_love_story():
     try:
         results = bigquery.execute_query(
-            query="SELECT id, title, FORMAT_DATE('%d/%m/%Y', `date`) as `date`, description, icon_url from backend.love_story_description order by id"
+            query="SELECT id, title, `date`, description, icon_url from backend.love_story_description order by id"
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
