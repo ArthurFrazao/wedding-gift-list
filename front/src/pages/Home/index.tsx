@@ -8,7 +8,7 @@ import { PageDefault } from '../../components/PageDefault'
 import api from '../../services/api'
 import { LoveStoryProps } from '../../interfaces/props'
 
-import { ContentLoveStory } from './styles'
+import { ContentLoveStory, Divider } from './styles'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -51,26 +51,26 @@ export function Home() {
   if (isLoading) return <Loader />
 
   return (
-    <div>
-      <PageDefault>
-        <HeroCard description={description} />
+    <PageDefault>
+      <HeroCard description={description} />
 
-        <ContentLoveStory>
-          <h2>Nossa história de amor</h2>
+      <Divider src="/assets/divider.svg" alt="" />
 
-          <div className="itens">
-            {stepsLoveStory.map(item => (
-              <div className="item" key={item.id}>
-                <span>{format(new Date(item.date), 'dd/MM/yyyy')}</span>
+      <ContentLoveStory>
+        <h2>Nossa história de amor</h2>
 
-                <img src={item.icon_url} alt={`Ícone ${item.title}`} />
-                <span className="title">{item.title}</span>
-                <span className="description">{item.description}</span>
-              </div>
-            ))}
-          </div>
-        </ContentLoveStory>
-      </PageDefault>
-    </div>
+        <div className="itens">
+          {stepsLoveStory.map(item => (
+            <div className="item" key={item.id}>
+              <span>{format(new Date(item.date), 'dd/MM/yyyy')}</span>
+
+              <img src={item.icon_url} alt={`Ícone ${item.title}`} />
+              <span className="title">{item.title}</span>
+              <span className="description">{item.description}</span>
+            </div>
+          ))}
+        </div>
+      </ContentLoveStory>
+    </PageDefault>
   )
 }

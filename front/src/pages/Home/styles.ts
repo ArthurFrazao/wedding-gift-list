@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 
+export const Divider = styled.img`
+  width: 64rem;
+
+  z-index: -99;
+  position: absolute;
+  top: 25rem;
+  left: 20%;
+`
+
 export const ContentLoveStory = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,6 +18,8 @@ export const ContentLoveStory = styled.div`
 
   h2 {
     margin-bottom: 2rem;
+    font-size: 3.125rem;
+    font-family: 'Parisienne', cursive !important;
   }
 
   .itens {
@@ -23,12 +34,24 @@ export const ContentLoveStory = styled.div`
     flex-direction: column;
     align-items: center;
 
-    gap: 0.5rem;
+    gap: 0.8rem;
     padding: 1rem;
+  }
+
+  .item img {
+    max-width: 8rem;
+
+    background-image: url('/assets/border-flowers-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 50%;
+    padding: 2.25rem;
   }
 
   .item span:first-child {
     font-style: italic;
+    font-size: 1.5rem;
   }
 
   .item .title {
