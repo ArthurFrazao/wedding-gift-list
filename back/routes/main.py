@@ -1,9 +1,12 @@
 from database import BigQueryClass
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_caching import Cache
 
 app = Flask(__name__)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.config["CORS_HEADERS"] = "Content-Type"
+
+cache = Cache(app, config={"CACHE_TYPE": "simple"})
 
 """
 The Flask-CORS library is being used to enable access from another domain to the API,
@@ -15,6 +18,7 @@ bigquery = BigQueryClass()
 
 
 @app.route("/all-gifts", methods=["GET"])
+@cache.cached(timeout=60)
 def get_all_gifts():
     try:
         results = bigquery.execute_query(query="SELECT * FROM backend.gifts ORDER BY name")
@@ -36,7 +40,14 @@ def get_gift_link(id_gift):
         return jsonify(results[0]["links"]), 200
 
 
+@app.route('/cache', methods=["GET"])
+def view_cache():
+    cache_content = cache.cache._cache
+    return str(cache_content.get(r"view//all-gifts"))
+
+
 @app.route("/get-page-description/<page>", methods=["GET"])
+@cache.cached(timeout=300)
 def get_page_description(page):
     try:
         results = bigquery.execute_query(
@@ -47,6 +58,7 @@ def get_page_description(page):
 
 
 @app.route("/get-love-story", methods=["GET"])
+@cache.cached(timeout=300)
 def get_love_story():
     try:
         results = bigquery.execute_query(
@@ -155,7 +167,6 @@ def give_suggestion():
         return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 
 @app.after_request
