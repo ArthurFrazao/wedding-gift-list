@@ -7,6 +7,10 @@ export const Divider = styled.img`
   position: absolute;
   top: 25rem;
   left: 20%;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 export const ContentLoveStory = styled.div`

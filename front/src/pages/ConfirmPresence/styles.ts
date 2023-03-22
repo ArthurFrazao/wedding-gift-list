@@ -28,6 +28,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: baseline;
+    margin-top: 2rem;
   }
 
   button {
@@ -58,4 +59,18 @@ export const Autocomplete = styled(Select)`
   > div {
     border-radius: 0.5rem !important;
   }
+`
+
+export const InputGuests = styled.input`
+  width: 100%;
+  height: 2rem;
+  padding: 0 10px;
+
+  text-align: start;
+  color: var(--black);
+  background: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+
+  margin-top: 0.5rem;
 `

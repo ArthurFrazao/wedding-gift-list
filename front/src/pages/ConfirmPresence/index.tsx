@@ -5,14 +5,66 @@ import { PageDefault } from '../../components/PageDefault'
 
 import api from '../../services/api'
 
-import { Container, FormInput, FormLabel, Autocomplete } from './styles'
+import {
+  Container,
+  FormInput,
+  FormLabel,
+  Autocomplete,
+  InputGuests
+} from './styles'
+import { Loader } from '../../components/Loader'
 
 type FormEvent = React.FormEvent<HTMLFormElement>
 
 export function ConfirmPresence() {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [description, setDescription] = useState<string>('')
+
   const [idRepresentant, setIdRepresentant] = useState<number>(0)
   const [nameRepresentant, setNameRepresentant] = useState<string>('')
+  const [invitations, setInvitations] = useState<number>(0)
+  const [namesOfGuests, setNamesOfGuests] = useState<string[]>([])
+
   const [isListingGuests, setIsListingGuests] = useState([])
+
+  const [inputs, setInputs] = useState<string[]>([])
+
+  const handleInputChange = (index: number, value: string) => {
+    const newInputs = [...inputs]
+    newInputs[index] = value
+    setInputs(newInputs)
+  }
+
+  const renderInputs = () => {
+    const inputElements = []
+    for (let i = 0; i < invitations; i++) {
+      inputElements.push(
+        <InputGuests
+          type="text"
+          value={namesOfGuests}
+          onChange={event => console.log(event.target.value)}
+          required
+        />
+      )
+    }
+    return inputElements
+  }
+
+  async function getDescription() {
+    setIsLoading(true)
+    try {
+      const response = await await api.get(
+        '/get-page-description/confirm-presence'
+      )
+      const description = response.data
+
+      setDescription(description)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
@@ -55,6 +107,8 @@ export function ConfirmPresence() {
         }
       })
 
+      formattedGuests.map((guest: any) => console.log(guest.id))
+
       setIsListingGuests(formattedGuests)
     } catch (error) {
       console.error(error)
@@ -63,12 +117,19 @@ export function ConfirmPresence() {
 
   useEffect(() => {
     listAllGuests()
+    getDescription()
   }, [])
 
   return (
     <PageDefault>
       <Container>
         <h1>Confirmar presença</h1>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <span dangerouslySetInnerHTML={{ __html: description }} />
+        )}
+
         <form onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">
             Nome completo: <b>*</b>
@@ -77,16 +138,26 @@ export function ConfirmPresence() {
             id="representant"
             options={isListingGuests}
             onChange={event => {
-              // setIdRepresentant(event?.id)
-              // setNameRepresentant(event?.name)
+              setIdRepresentant(event?.id)
+              setNameRepresentant(event?.name)
+              setInvitations(event?.invitations)
             }}
             placeholder="Digite seu nome completo..."
+            required
           />
 
           <FormLabel htmlFor="invitations">
             Quantidade de convites: <b>*</b>
           </FormLabel>
-          <FormInput type="number" disabled />
+          <FormInput type="number" value={invitations} disabled />
+
+          {invitations > 0 && (
+            <FormLabel htmlFor="name">
+              Conte-nos o nome das pessoas que irão com você. <b>*</b>
+            </FormLabel>
+          )}
+          {renderInputs()}
+
           <Button type="submit">Enviar</Button>
         </form>
       </Container>

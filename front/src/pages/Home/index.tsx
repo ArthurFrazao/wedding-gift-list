@@ -9,6 +9,7 @@ import api from '../../services/api'
 import { LoveStoryProps } from '../../interfaces/props'
 
 import { ContentLoveStory, Divider } from './styles'
+import ptBR from 'date-fns/locale/pt-BR'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -54,7 +55,7 @@ export function Home() {
     <PageDefault>
       <HeroCard description={description} />
 
-      <Divider src="/assets/divider.svg" alt="" />
+      <Divider src="/assets/divider.svg" alt="Divider" />
 
       <ContentLoveStory>
         <h2>Nossa história de amor</h2>
@@ -62,7 +63,11 @@ export function Home() {
         <div className="itens">
           {stepsLoveStory.map(item => (
             <div className="item" key={item.id}>
-              <span>{format(new Date(item.date), 'dd/MM/yyyy')}</span>
+              <span>
+                {format(new Date(item.date), 'dd/MM/yyyy ', {
+                  locale: ptBR
+                })}
+              </span>
 
               <img src={item.icon_url} alt={`Ícone ${item.title}`} />
               <span className="title">{item.title}</span>

@@ -1,15 +1,39 @@
 import { useState, useEffect } from 'react'
+
 import { PageDefault } from '../../components/PageDefault'
+import { Loader } from '../../components/Loader'
+
 import { Container } from './styles'
 
+import api from '../../services/api'
+
 export function Ceremony() {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isMobile, setIsMobile] = useState(false)
+
+  const [description, setDescription] = useState<string>('')
 
   const verifyIsMobile = () => {
     window.screen.width <= 768 ? setIsMobile(true) : setIsMobile(false)
   }
+
+  async function getDescription() {
+    setIsLoading(true)
+    try {
+      const response = await await api.get('/get-page-description/ceremony')
+      const description = response.data
+
+      setDescription(description)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
     verifyIsMobile()
+    getDescription()
   }, [window.screen])
 
   const MapGoogle = (): JSX.Element => {
@@ -30,18 +54,14 @@ export function Ceremony() {
       <Container>
         <h1>Cerimônia</h1>
 
-        <div className="content">
-          <MapGoogle />
-          <span>
-            Contamos com a presença de todos vocês no momento em que nossa união
-            será abençoada diante de Deus! A cerimônia será rápida e vamos ser
-            extremamente pontuais. Dia 00 de setembro de 2023 as 16:00 na
-            Chácara Pingo De Ouro.
-            <br />
-            <br />
-            R. dos Pinheiros, 789 - Panorama, Uberlândia - MG, 38412-606
-          </span>
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="content">
+            <MapGoogle />
+            <span dangerouslySetInnerHTML={{ __html: description }} />
+          </div>
+        )}
       </Container>
     </PageDefault>
   )
