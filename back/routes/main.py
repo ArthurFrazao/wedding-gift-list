@@ -2,6 +2,9 @@ from database import BigQueryClass
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_caching import Cache
+import cloudstorage as gcs
+from google.appengine.api import images
+
 
 app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
@@ -24,7 +27,45 @@ class APIPresenceError(APIError):
     """Custom Presence Confirmation Error Class."""
     code = 409
     description = "Presence Confirmation Error"
-
+    
+@app.route('/upload-item', methods=["POST"])
+def upload_item():
+  original = request.files.get("image", None)  
+  
+  if not original:
+    return jsonify(
+      {'error': 'Missing image, can not change avatar'}
+    )
+  try:
+    image = images.Image(original.read())    # Resize and crop the image to a give size, 
+    # image.resize(
+    #   width=128, height=128, crop_to_fit=True, allow_stretch=False
+    # )    # Commit the transformation on the image data
+    # result = image.execute_transforms(output_encoding=JPEG)    # Create a filename for the stored image
+    # filename = 'avatar-{}.jpg'.format(uuid.uuid4())
+    # filepath = '/{}/{}'.format(bucket_name, filename)    # Store the image in Cloud Storage with a random filename
+    f = gcs.open("gs://wedding-website-backend-images-upload/teste.jpg", 'w', content_type='image/jpg')
+    f.write(image)
+    f.close()   
+    return jsonify({'message':'imagem carregada com sucesso'}), 200
+  except Exception as e:
+    return jsonify({
+      'error': 'Could not create image data'
+    }), 500
+    
+@app.route('/storage/<filename>')
+def storage(filename):
+  """Endpoint for files in Cloud Storage
+       @filename - The name of the file only, not the entire path
+  """
+  try:
+    fname = '/{}/{}'.format(bucket_name, filename)
+    f = gcs.open(fname)
+    data = f.read()
+    return data
+  except Exception as e: 
+    return jsonify({'error': 'Could not find file {}'.format(filename)})
+  
 @app.route("/all-gifts", methods=["GET"])
 @cache.cached(timeout=60)
 def get_all_gifts():
