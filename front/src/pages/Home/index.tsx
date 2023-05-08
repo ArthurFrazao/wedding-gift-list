@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 
 import { Loader } from '../../components/Loader'
 import { HeroCard } from '../../components/HeroCard'
@@ -9,7 +10,6 @@ import api from '../../services/api'
 import { LoveStoryProps } from '../../interfaces/props'
 
 import { ContentLoveStory } from './styles'
-import ptBR from 'date-fns/locale/pt-BR'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -62,7 +62,7 @@ export function Home() {
           {stepsLoveStory.map(item => (
             <div className="item" key={item.id}>
               <span>
-                {format(new Date(item.date), 'dd/MM/yyyy ', {
+                {format(addDays(new Date(item.date), 1), 'dd/MM/yyyy ', {
                   locale: ptBR
                 })}
               </span>

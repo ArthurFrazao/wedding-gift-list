@@ -44,11 +44,10 @@ export function AddSuggestion() {
     }
 
     try {
-      const response = await api.post('/upload-item', {
+      await api.post('/upload-item', {
         body: formData
       })
-
-      console.log(response, 'formData')
+      // const response = await console.log(response, 'formData')
 
       // This is the response to the request...
     } catch (error) {
