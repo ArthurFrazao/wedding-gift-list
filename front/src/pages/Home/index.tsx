@@ -8,7 +8,7 @@ import { PageDefault } from '../../components/PageDefault'
 import api from '../../services/api'
 import { LoveStoryProps } from '../../interfaces/props'
 
-import { ContentLoveStory, Divider } from './styles'
+import { ContentLoveStory } from './styles'
 import ptBR from 'date-fns/locale/pt-BR'
 
 export function Home() {
@@ -34,9 +34,9 @@ export function Home() {
     setIsLoading(true)
     try {
       const response = await await api.get('/get-love-story')
-      const itensLoveStory = response.data
+      const itemsLoveStory = response.data
 
-      setStepsLoveStory(itensLoveStory)
+      setStepsLoveStory(itemsLoveStory)
     } catch (error) {
       console.error(error)
     } finally {
@@ -54,8 +54,6 @@ export function Home() {
   return (
     <PageDefault>
       <HeroCard description={description} />
-
-      {/* <Divider src="/assets/divider.svg" alt="Divider" /> */}
 
       <ContentLoveStory>
         <h2>Nossa história de amor</h2>

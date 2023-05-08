@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEventHandler } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '../Button'
 
@@ -11,6 +12,11 @@ interface FilterSearchProps {
 }
 
 function Mobile(props: FilterSearchProps) {
+  const navigate = useNavigate()
+  const redirectToAddSuggestion = (url: string) => {
+    navigate(url)
+  }
+
   return (
     <ContainerMobile>
       <div className="group__buttons">
@@ -28,13 +34,23 @@ function Mobile(props: FilterSearchProps) {
             onChange={props.filterInput}
           />
         </div>
-        <Button>Adicionar sugestão</Button>
+        <Button
+          onClick={() =>
+            redirectToAddSuggestion('/category/gift-list/add-suggestion')
+          }
+        >
+          Adicionar sugestão
+        </Button>
       </section>
     </ContainerMobile>
   )
 }
 
 function Desktop(props: FilterSearchProps) {
+  const navigate = useNavigate()
+  const redirectToAddSuggestion = (url: string) => {
+    navigate(url)
+  }
   return (
     <Container>
       <div>
@@ -45,7 +61,13 @@ function Desktop(props: FilterSearchProps) {
       </div>
 
       <section className="filter">
-        <Button>Adicionar sugestão</Button>
+        <Button
+          onClick={() =>
+            redirectToAddSuggestion('/category/gift-list/add-suggestion')
+          }
+        >
+          Adicionar sugestão
+        </Button>
         <input
           type="text"
           placeholder="Buscar presente pelo nome"

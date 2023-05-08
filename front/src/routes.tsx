@@ -6,6 +6,7 @@ import { GiftsList } from './pages/GiftsList'
 import { ConfirmPresence } from './pages/ConfirmPresence'
 
 import { PageNotFound } from './pages/PageNotFound'
+import { AddSuggestion } from './pages/AddSuggestion'
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
   {
     path: '/category/gift-list',
     element: <GiftsList />
+  },
+  {
+    path: '/category/gift-list/add-suggestion',
+    element: <AddSuggestion />
   },
   {
     path: '/category/ceremony',

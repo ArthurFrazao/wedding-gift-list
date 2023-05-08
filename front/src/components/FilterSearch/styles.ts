@@ -78,11 +78,12 @@ export const ContainerMobile = styled.div`
 
     gap: 1rem;
     margin-bottom: 1rem;
+    width: 100%;
   }
 
   input {
     height: 2rem;
-    width: 92vw;
+    width: calc(100vw - 2rem);
 
     padding: 0 0.625rem;
 

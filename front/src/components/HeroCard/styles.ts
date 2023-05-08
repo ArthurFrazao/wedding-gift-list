@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-items: stretch;
 
   margin-top: 5rem;
-  margin-bottom: 15rem;
+  margin-bottom: 5rem;
 
   .description {
     display: flex;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '../../components/Button'
+import { Loader } from '../../components/Loader'
 import { PageDefault } from '../../components/PageDefault'
 
 import api from '../../services/api'
@@ -10,9 +11,11 @@ import {
   FormInput,
   FormLabel,
   Autocomplete,
-  InputGuests
+  CustomInputMask
 } from './styles'
-import { Loader } from '../../components/Loader'
+
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type FormEvent = React.FormEvent<HTMLFormElement>
 
@@ -21,33 +24,14 @@ export function ConfirmPresence() {
   const [description, setDescription] = useState<string>('')
 
   const [idRepresentant, setIdRepresentant] = useState<number>(0)
-  const [nameRepresentant, setNameRepresentant] = useState<string>('')
   const [invitations, setInvitations] = useState<number>(0)
-  const [namesOfGuests, setNamesOfGuests] = useState<string[]>([])
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [optionalMessage, setOptionalMessage] = useState<string>('')
 
   const [isListingGuests, setIsListingGuests] = useState([])
 
-  const [inputs, setInputs] = useState<string[]>([])
-
-  const handleInputChange = (index: number, value: string) => {
-    const newInputs = [...inputs]
-    newInputs[index] = value
-    setInputs(newInputs)
-  }
-
-  const renderInputs = () => {
-    const inputElements = []
-    for (let i = 0; i < invitations; i++) {
-      inputElements.push(
-        <InputGuests
-          type="text"
-          value={namesOfGuests}
-          onChange={event => console.log(event.target.value)}
-          required
-        />
-      )
-    }
-    return inputElements
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setOptionalMessage(event.target.value)
   }
 
   async function getDescription() {
@@ -71,13 +55,9 @@ export function ConfirmPresence() {
 
     const confirmPresence = {
       id_representant: idRepresentant,
-      names_invitations: [
-        {
-          name: nameRepresentant,
-          is_confirmed: true,
-          age: idRepresentant
-        }
-      ]
+      is_confirmed: true,
+      phone_number: phoneNumber,
+      optional_message: optionalMessage
     }
 
     try {
@@ -87,9 +67,33 @@ export function ConfirmPresence() {
             'Content-Type': 'application/json'
           }
         })
-        .then(response => console.log(response))
+        .then(response => {
+          toast.success('Presença confirmada! Esperamos você ❤️', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light'
+          })
+
+          setTimeout(() => {
+            location.reload()
+          }, 3000)
+        })
     } catch (error) {
-      console.error(error)
+      toast.warn('Ops! Algo deu errado. 😥', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
     }
   }
 
@@ -106,8 +110,6 @@ export function ConfirmPresence() {
           invitations: guest.invitations
         }
       })
-
-      formattedGuests.map((guest: any) => console.log(guest.id))
 
       setIsListingGuests(formattedGuests)
     } catch (error) {
@@ -134,6 +136,7 @@ export function ConfirmPresence() {
           <FormLabel htmlFor="name">
             Nome completo: <b>*</b>
           </FormLabel>
+
           <Autocomplete
             id="representant"
             options={isListingGuests}
@@ -141,8 +144,7 @@ export function ConfirmPresence() {
               // @ts-ignore
               setIdRepresentant(event?.id)
               // @ts-ignore
-              setNameRepresentant(event?.name)
-              // @ts-ignore
+              setInvitations(event?.invitations)
             }}
             placeholder="Digite seu nome completo..."
             required
@@ -153,14 +155,29 @@ export function ConfirmPresence() {
           </FormLabel>
           <FormInput type="number" value={invitations} disabled />
 
-          {invitations > 0 && (
-            <FormLabel htmlFor="name">
-              Conte-nos o nome das pessoas que irão com você. <b>*</b>
-            </FormLabel>
-          )}
-          {renderInputs()}
+          <FormLabel htmlFor="phoneNumber">
+            Telefone: <b>*</b>
+          </FormLabel>
+          <CustomInputMask
+            id="phone"
+            mask="(99) 99999-9999"
+            maskChar=""
+            placeholder="(00) 00000-0000"
+            onChange={event => setPhoneNumber(event.target.value)}
+            required
+          />
+
+          <FormLabel htmlFor="optionalMessage">
+            Deixe uma mensagem aqui: <strong>(opcional)</strong>
+          </FormLabel>
+          <FormInput
+            type="text"
+            value={optionalMessage}
+            onChange={handleInputChange}
+          />
 
           <Button type="submit">Enviar</Button>
+          <ToastContainer />
         </form>
       </Container>
     </PageDefault>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Select from 'react-select'
+import InputMask from 'react-input-mask'
 
 export const Container = styled.div`
   width: 100%;
@@ -34,6 +35,14 @@ export const Container = styled.div`
   button {
     margin-top: 2rem;
   }
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+
+    h2 {
+      margin-top: -6.25rem;
+    }
+  }
 `
 
 export const FormInput = styled.input`
@@ -49,8 +58,12 @@ export const FormInput = styled.input`
 `
 
 export const FormLabel = styled.label`
-  margin: 0.5em;
+  margin: 0.5rem;
   color: var(--black);
+
+  @media (max-width: 768px) {
+    margin: 0.2rem 0;
+  }
 `
 
 export const Autocomplete = styled(Select)`
@@ -61,7 +74,7 @@ export const Autocomplete = styled(Select)`
   }
 `
 
-export const InputGuests = styled.input`
+export const CustomInputMask = styled(InputMask)`
   width: 100%;
   height: 2rem;
   padding: 0 10px;
@@ -71,6 +84,4 @@ export const InputGuests = styled.input`
   background: var(--white);
   border: none;
   border-radius: 0.5rem;
-
-  margin-top: 0.5rem;
 `

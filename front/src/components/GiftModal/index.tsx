@@ -23,6 +23,8 @@ export function GiftModal() {
     setIsLoading(true)
     try {
       const response = await await api.get(`/get-gift-link/${giftSelected}`)
+
+      console.log(response, 'response')
       const listLinks = response.data
 
       setLinksGift(listLinks)

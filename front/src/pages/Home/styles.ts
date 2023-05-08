@@ -1,18 +1,5 @@
 import styled from 'styled-components'
 
-export const Divider = styled.img`
-  width: 64rem;
-
-  z-index: -99;
-  position: absolute;
-  top: 25rem;
-  left: 20%;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`
-
 export const ContentLoveStory = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,7 +13,7 @@ export const ContentLoveStory = styled.div`
     font-family: 'Parisienne', cursive !important;
   }
 
-  .itens {
+  .items {
     display: grid;
     align-content: center;
     justify-content: center;

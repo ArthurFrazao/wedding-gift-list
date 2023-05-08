@@ -30,6 +30,8 @@ export const Container = styled.div`
     flex-direction: column;
     padding: 0 1rem;
 
+    margin-top: 12rem;
+
     .content {
       display: flex;
       flex-direction: column-reverse;
@@ -40,5 +42,24 @@ export const Container = styled.div`
     span {
       width: 100%;
     }
+  }
+`
+
+export const Description = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  ul {
+    padding-left: 1rem;
   }
 `
