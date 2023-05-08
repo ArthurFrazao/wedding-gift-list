@@ -1,8 +1,12 @@
 from database import BigQueryClass
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, flash, redirect, url_for
 from flask_cors import CORS
 from flask_caching import Cache
+from werkzeug.utils import secure_filename
+import os
 
+UPLOAD_FOLDER = "gs://wedding-website-backend-images-upload"
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
@@ -25,7 +29,24 @@ class APIPresenceError(APIError):
     """Custom Presence Confirmation Error Class."""
     code = 409
     description = "Presence Confirmation Error"
-  
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           
+@app.route("/upload-item", methods=["POST"])
+def upload_image():
+    
+    file = request.files["file"]
+    if not file.filename:
+        flash("No selected file")
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        return redirect(url_for('download_file', name=filename))        
+     
+
 @app.route("/all-gifts", methods=["GET"])
 @cache.cached(timeout=60)
 def get_all_gifts():
