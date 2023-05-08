@@ -127,14 +127,23 @@ def confirm_presence():
         phone_number_formatted = int("".join(filter(str.isdigit, phone_number)))
         optional_message = data["optional_message"]
         
-        query = f"""
-        INSERT backend.confirmed_presence (id_representant, is_confirmed, phone_number, option_message)
-        SELECT {id_representant}, {is_confirmed}, {phone_number_formatted}, '{optional_message}'
-        """
-        print(query)
-        bigquery.execute_query(query=query)
+        query_check_presence = f"""
+        select id_representant
+        from backend.confirmed_presence
+        where id_representant = {id_representant} """
+        
+        presence_exists = bigquery.execute_query(query=query_check_presence)
+        
+        if not presence_exists:        
+            query_confirm_presence = f"""
+            INSERT backend.confirmed_presence (id_representant, is_confirmed, phone_number, option_message)
+            SELECT {id_representant}, {is_confirmed}, {phone_number_formatted}, NULLIF({optional_message}, '')
+            """
+            bigquery.execute_query(query=query_confirm_presence)
 
-        return jsonify({"message": "Presence confirmed successfully"}), 200
+            return jsonify({"message": "Presence confirmed successfully"}), 200
+        else:
+            return jsonify({"error": "Presence already confirmed"}), 409
     except KeyError as e:
         return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
