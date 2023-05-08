@@ -37,7 +37,7 @@ def allowed_file(filename):
 @app.route("/upload-item", methods=["POST"])
 def upload_image():
 
-    return jsonify({"message": f"{request.files}"}), 200
+    print(request.files)
     # file = request.files["file"]
     # print(file.filename)
     # if not file.filename:
