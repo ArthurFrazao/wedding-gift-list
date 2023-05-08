@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 
 import { Button } from '../../components/Button'
 import { PageDefault } from '../../components/PageDefault'
@@ -10,48 +10,52 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import api from '../../services/api'
 
-interface MyFormState {
-  nameItem: string
-  imageItem: File | null
+interface FormValues {
+  name: string
+  file?: File
 }
 
 export function AddSuggestion() {
-  const [formState, setFormState] = useState<MyFormState>({
-    nameItem: '',
-    imageItem: null
+  const [formValues, setFormValues] = useState<FormValues>({
+    name: '',
+    file: undefined
   })
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState({ ...formState, nameItem: event.target.value })
+    const { value } = event.target
+    setFormValues(prevState => ({
+      ...prevState,
+      name: value
+    }))
   }
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    setFormState({ ...formState, imageItem: file || null })
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target
+    if (files && files.length > 0) {
+      setFormValues(prevState => ({
+        ...prevState,
+        file: files[0]
+      }))
+    }
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    const formData = new FormData()
-    formData.append('nameItem', formState.nameItem)
-    if (formState.imageItem) {
-      formData.append(
-        'imageItem',
-        formState.imageItem,
-        formState.imageItem.name
-      )
-    }
-
     try {
-      await api.post('/upload-item', {
-        body: formData
-      })
-      // const response = await console.log(response, 'formData')
+      const formData = new FormData()
+      formData.append('name', formValues.name)
+      if (formValues.file) {
+        formData.append('file', formValues.file)
+      }
 
-      // This is the response to the request...
+      const response = await api.post('/upload-item', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      console.log(response.data)
     } catch (error) {
-      // Handle the request error...
       console.error(error)
     }
   }
@@ -69,23 +73,25 @@ export function AddSuggestion() {
         </span>
 
         <form onSubmit={handleSubmit}>
-          <FormLabel htmlFor="itemName">
+          <FormLabel htmlFor="name">
             Nome do item: <b>*</b>
           </FormLabel>
           <FormInput
             type="text"
-            value={formState.nameItem}
+            id="name"
+            value={formValues.name}
             onChange={handleNameChange}
+            required
           />
 
-          <FormLabel htmlFor="itemImage">
+          <FormLabel htmlFor="file">
             Imagem do item: <strong>(opcional)</strong>
           </FormLabel>
           <input
-            name="file"
             type="file"
             accept="image/png, image/jpeg"
-            onChange={handleImageChange}
+            id="file"
+            onChange={handleFileChange}
           />
 
           <Button type="submit">Enviar</Button>
