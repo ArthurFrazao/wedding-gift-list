@@ -15,8 +15,7 @@ class BigQueryClass:
             job = self.client.query(query)
             results = job.result()
             results_dict = [dict(row) for row in results]
+            return results_dict
         except Exception as e:
             print(f"Error in executing query: {e}")
             return None
-        else:
-            return results_dict

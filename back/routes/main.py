@@ -40,18 +40,23 @@ def get_gift_link(id_gift):
         return jsonify(results[0]["links"]), 200
 
 
-@app.route('/cache', methods=["GET"])
-def view_cache():
-    cache_content = cache.cache._cache
-    return str(cache_content.get(r"view//all-gifts"))
-
-
 @app.route("/get-page-description/<page>", methods=["GET"])
 @cache.cached(timeout=300)
 def get_page_description(page):
+    """
+    Retrieves the description of a given page from the backend.pages_description table in BigQuery.
+
+    Parameters:
+        - page (str): the name of the page to retrieve the description for. Accepted values are "gift-list",
+          "confirm-presence", and "home".
+
+    Returns:
+        A tuple containing the description string and an HTTP status code. If the query was successful, the
+        description string is returned along with a 200 status code. If an error occurred during the query,
+        a tuple containing an error message string and a 500 status code is returned.
+    """
     try:
-        results = bigquery.execute_query(
-                query=f"SELECT description FROM backend.pages_description WHERE name = '{page}'")
+        results = bigquery.execute_query(query=f"SELECT description FROM backend.pages_description WHERE name = '{page}'")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return results[0]["description"], 200
@@ -117,14 +122,17 @@ def confirm_presence():
     try:
         data = request.json
         id_representant = data["id_representant"]
-
-        for guest in data["names_invitations"]:
-            guest_name = guest["name"].strip().title()
-
-            bigquery.execute_query(query="INSERT backend.guests VALUES({}, {}, '{}', {}, {})".format(
-                    "(SELECT count(*)+1 from backend.guests)", id_representant, guest_name, guest["age"],
-                    guest["is_confirmed"]
-            ))
+        is_confirmed = data["is_confirmed"]
+        phone_number = data["phone_number"]
+        phone_number_formatted = int("".join(filter(str.isdigit, phone_number)))
+        optional_message = data["optional_message"]
+        
+        query = f"""
+        INSERT backend.confirmed_presence (id_representant, is_confirmed, phone_number, option_message)
+        SELECT {id_representant}, {is_confirmed}, {phone_number_formatted}, '{optional_message}'
+        """
+        print(query)
+        bigquery.execute_query(query=query)
 
         return jsonify({"message": "Presence confirmed successfully"}), 200
     except KeyError as e:
