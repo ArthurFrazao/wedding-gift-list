@@ -137,7 +137,7 @@ def confirm_presence():
         if not presence_exists:        
             query_confirm_presence = f"""
             INSERT backend.confirmed_presence (id_representant, is_confirmed, phone_number, option_message)
-            SELECT {id_representant}, {is_confirmed}, {phone_number_formatted}, NULLIF({optional_message}, '')
+            SELECT {id_representant}, {is_confirmed}, {phone_number_formatted}, NULLIF('{optional_message}', '')
             """
             bigquery.execute_query(query=query_confirm_presence)
 
