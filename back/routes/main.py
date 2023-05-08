@@ -39,6 +39,13 @@ def upload_image():
 
     print(request.files)
     print(request.form)
+    try:
+        print(request.files.get('imagefile', ''))
+        print(request.files.get('imageItem', ''))
+    except:
+        pass
+    return jsonify({"message": "boa"}), 200
+    
     # file = request.files["file"]
     # print(file.filename)
     # if not file.filename:
