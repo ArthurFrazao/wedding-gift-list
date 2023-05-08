@@ -55,12 +55,12 @@ export function Home() {
     <PageDefault>
       <HeroCard description={description} />
 
-      <Divider src="/assets/divider.svg" alt="Divider" />
+      {/* <Divider src="/assets/divider.svg" alt="Divider" /> */}
 
       <ContentLoveStory>
         <h2>Nossa história de amor</h2>
 
-        <div className="itens">
+        <div className="items">
           {stepsLoveStory.map(item => (
             <div className="item" key={item.id}>
               <span>

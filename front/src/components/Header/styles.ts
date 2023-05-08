@@ -46,8 +46,8 @@ export const Container = styled.header`
 
   @media (max-width: 768px) {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
 
     gap: 1rem;
@@ -57,9 +57,13 @@ export const Container = styled.header`
       border: none;
     }
 
+    .title__gift > span {
+      padding-right: 0.9rem;
+    }
+
     h4 {
       padding-left: 0;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
   }
 `

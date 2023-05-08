@@ -31,7 +31,7 @@ export const Container = styled.div`
     background-position: center;
     background-size: contain;
     border-radius: 50%;
-    padding: 2rem;
+    padding: 1rem;
   }
 
   .icon svg {

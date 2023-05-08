@@ -68,9 +68,12 @@ export const ContentLoveStory = styled.div`
   @media (max-width: 768px) {
     h2 {
       margin-top: 4rem;
+      padding: 0 1rem;
+
+      text-align: center;
     }
 
-    .itens {
+    .items {
       display: flex;
       flex-direction: column;
       justify-content: space-between;

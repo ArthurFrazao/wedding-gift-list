@@ -138,9 +138,11 @@ export function ConfirmPresence() {
             id="representant"
             options={isListingGuests}
             onChange={event => {
+              // @ts-ignore
               setIdRepresentant(event?.id)
+              // @ts-ignore
               setNameRepresentant(event?.name)
-              setInvitations(event?.invitations)
+              // @ts-ignore
             }}
             placeholder="Digite seu nome completo..."
             required

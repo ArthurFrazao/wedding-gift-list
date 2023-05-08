@@ -19,9 +19,9 @@ export const Container = styled.div`
 
   input {
     height: 2rem;
-    width: 300px;
+    width: 18.75rem;
 
-    padding: 0 10px;
+    padding: 0 0.625rem;
 
     border: none;
     border-radius: 0.5rem;
@@ -48,6 +48,10 @@ export const ContainerMobile = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+
+  width: 100%;
+
+  margin-top: 1rem;
 
   .group__buttons {
     display: flex;
@@ -78,9 +82,9 @@ export const ContainerMobile = styled.div`
 
   input {
     height: 2rem;
-    width: 80vw;
+    width: 92vw;
 
-    padding: 0 10px;
+    padding: 0 0.625rem;
 
     border: none;
     border-radius: 0.5rem;

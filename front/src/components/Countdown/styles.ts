@@ -32,10 +32,23 @@ export const Container = styled.div`
     color: var(--white);
     width: 100px;
     height: 100px;
+
+    z-index: -99;
   }
 
   .number {
     font-size: 1.25rem;
     font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    > div {
+      margin-left: 0;
+    }
+
+    .item-date {
+      width: 85px;
+      height: 85px;
+    }
   }
 `
