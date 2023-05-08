@@ -38,6 +38,7 @@ def allowed_file(filename):
 def upload_image():
 
     print(request.files)
+    print(request.form)
     # file = request.files["file"]
     # print(file.filename)
     # if not file.filename:
