@@ -16,6 +16,14 @@ cors = CORS(app, resources={"*": {"origins": "http://localhost:port"}})
 
 bigquery = BigQueryClass()
 
+class APIError(Exception):
+    """All custom API Exceptions"""
+    pass
+
+class APIPresenceError(APIError):
+    """Custom Presence Confirmation Error Class."""
+    code = 409
+    description = "Presence Confirmation Error"
 
 @app.route("/all-gifts", methods=["GET"])
 @cache.cached(timeout=60)
@@ -25,7 +33,6 @@ def get_all_gifts():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
-
 
 @app.route("/get-gift-link/<id_gift>", methods=["GET"])
 def get_gift_link(id_gift):
@@ -38,7 +45,6 @@ def get_gift_link(id_gift):
         return jsonify([]), 200
     else:
         return jsonify(results[0]["links"]), 200
-
 
 @app.route("/get-page-description/<page>", methods=["GET"])
 @cache.cached(timeout=300)
@@ -61,7 +67,6 @@ def get_page_description(page):
         return jsonify({"error": str(e)}), 500
     return results[0]["description"], 200
 
-
 @app.route("/get-love-story", methods=["GET"])
 @cache.cached(timeout=300)
 def get_love_story():
@@ -73,7 +78,6 @@ def get_love_story():
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
 
-
 @app.route("/gifts-not-presented", methods=["GET"])
 def get_gifts_not_presented():
     try:
@@ -81,7 +85,6 @@ def get_gifts_not_presented():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
-
 
 @app.route("/guests-representants", methods=["GET"])
 def get_guests_representants():
@@ -91,7 +94,6 @@ def get_guests_representants():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify(results), 200
-
 
 @app.route("/update-gift-status", methods=["POST"])
 def update_gift_status():
@@ -112,7 +114,6 @@ def update_gift_status():
         return jsonify({"error": str(e)}), 50
 
     return jsonify({"message": "gift status updated successfully"}), 200
-
 
 @app.route("/confirm-presence", methods=["POST"])
 def confirm_presence():
@@ -143,12 +144,11 @@ def confirm_presence():
 
             return jsonify({"message": "Presence confirmed successfully"}), 200
         else:
-            return jsonify({"error": "Presence already confirmed"}), 409
+            raise APIPresenceError("Presence already confirmed")
     except KeyError as e:
         return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @app.route("/give-suggestion", methods=["POST"])
 def give_suggestion():
@@ -184,7 +184,6 @@ def give_suggestion():
         return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @app.after_request
 def after_request(response):
