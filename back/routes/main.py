@@ -39,6 +39,8 @@ def give_suggestion():
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
     this_person_will_gift = data["selectedOption"]
+    print("this_person_will_gift ", this_person_will_gift)
+    print("type this_person_will_gift: ", type(this_person_will_gift))
     
     file = request.files["file"]
     if not file.filename:
