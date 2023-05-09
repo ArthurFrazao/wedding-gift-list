@@ -36,7 +36,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
            
-@app.route("/give_suggestion", methods=["POST"])
+@app.route("/give-suggestion", methods=["POST"])
 def give_suggestion():
     
     print(f"name: {request.json['name']}")
