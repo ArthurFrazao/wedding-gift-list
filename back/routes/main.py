@@ -32,8 +32,6 @@ def allowed_file(filename):
 
 @app.route("/give-suggestion", methods=["POST"])
 def give_suggestion():    
-    if not request.form:
-        return jsonify({"error": "No data provided in request body"}), 400
     data = request.form
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
