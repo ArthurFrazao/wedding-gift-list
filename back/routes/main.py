@@ -37,25 +37,23 @@ def give_suggestion():
     data = request.form
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
-    print("selectedOption ", data["selectedOption"])
     this_person_will_gift = True if data["selectedOption"] == "sim" else False
     
-    file = request.files["file"]
-    if not file.filename:
-        flash("No selected file")
-        return jsonify({"error": "No selected file"}), 400
-    
+    file = request.files["file"]    
     if file and allowed_file(file.filename):
         secure_filename(file.filename)
         storage_client = storage.Client()
         bucket = storage_client.bucket("wedding-website-backend-images")
         blob = bucket.blob(item_name)
         blob.upload_from_file(file)
-        blob.make_public()
-        update_table_gifts(item_name, blob.public_url, this_person_will_gift)
-        if this_person_will_gift:
-            update_table_guests_gifts(item_name, name_person)
-        return jsonify({"message": "File uploaded"}), 200
+        public_url = blob.make_public()
+    else:
+        public_url = f"https://storage.googleapis.com/wedding-website-backend-images/default.jpg"
+        
+    update_table_gifts(item_name, public_url, this_person_will_gift)
+    if this_person_will_gift:
+        update_table_guests_gifts(item_name, name_person)
+    return jsonify({"message": "File uploaded"}), 200
 
 def update_table_gifts(item_name: str, file_public_url: str, is_presented: bool):
     query = f"""
