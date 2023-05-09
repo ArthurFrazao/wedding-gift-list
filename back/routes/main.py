@@ -35,12 +35,17 @@ class APIPresenceError(APIError):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
+
 @app.route("/give-suggestion", methods=["POST"])
 def give_suggestion():
     
-    print(f"name: {request.form['name']}")
-    print(f"namePerson: {request.form['namePerson']}")
+    if not request.form:
+        return jsonify({"error": "No data provided in request body"}), 400
+    data = request.form
+    item_name = data["name"].strip().title()
+    name_person = data["namePerson"].strip().title()
+    this_person_will_gift = data["selectedOption"]
+    
     file = request.files["file"]
     if not file.filename:
         flash("No selected file")
@@ -49,7 +54,7 @@ def give_suggestion():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         storage_client = storage.Client()
-        bucket = storage_client.bucket("wedding-website-backend-images-upload")
+        bucket = storage_client.bucket("wedding-website-backend-images")
         blob = bucket.blob(filename)
         blob.upload_from_file(file)
         return jsonify({"message": "File uploaded"}), 200
