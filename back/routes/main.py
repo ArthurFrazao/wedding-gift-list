@@ -39,8 +39,8 @@ def allowed_file(filename):
 @app.route("/give-suggestion", methods=["POST"])
 def give_suggestion():
     
-    print(f"name: {request.json['name']}")
-    print(f"namePerson: {request.json['namePerson']}")
+    print(f"name: {request.form['name']}")
+    print(f"namePerson: {request.form['namePerson']}")
     file = request.files["file"]
     if not file.filename:
         flash("No selected file")
