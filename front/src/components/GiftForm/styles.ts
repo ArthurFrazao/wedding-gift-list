@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: flex-start;
   gap: 0.5rem;
 
-  width: 100%;
+  width: 60vw;
   padding-bottom: 1rem;
 
   button {
@@ -20,6 +20,10 @@ export const Container = styled.div`
     cursor: pointer;
     filter: brightness(0.8);
   }
+
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
 `
 
 export const FormCustom = styled.form`
@@ -29,6 +33,44 @@ export const FormCustom = styled.form`
   gap: 0.5rem;
 
   width: 100%;
+
+  h3 {
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+  }
+
+  b {
+    color: var(--red);
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+
+    h3 {
+      text-align: start;
+      margin-bottom: 1rem;
+    }
+  }
+`
+
+export const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.6rem;
+
+  header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  header span {
+    font-weight: bold;
+  }
+
+  margin-bottom: 1rem;
 `
 
 export const FormInput = styled.input`
@@ -59,5 +101,6 @@ export const ButtonConfirm = styled.button`
 
 export const ButtonCancel = styled.button`
   border: 1px solid var(--red);
-  background: none;
+  background: var(--red);
+  color: #f9f9f9;
 `

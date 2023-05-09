@@ -18,7 +18,7 @@ interface ModalProps {
 
 export function Modal({ gift, textButton, children }: ModalProps) {
   const { isOpen, setIsOpen, isWaiting } = useModal()
-  const { setGiftSelected } = useGift()
+  const { setGiftSelected, setGiftNameSelected } = useGift()
 
   const [isShowing, setIsShowing] = useState(false)
 
@@ -31,10 +31,12 @@ export function Modal({ gift, textButton, children }: ModalProps) {
   function toggle() {
     setIsOpen(!isShowing)
     setGiftSelected(gift?.id)
+    setGiftNameSelected(gift?.name)
   }
 
   useEffect(() => {
     setGiftSelected(gift?.id)
+    setGiftNameSelected(gift?.name)
   }, [gift])
 
   useEffect(() => {

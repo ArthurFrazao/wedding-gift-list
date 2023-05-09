@@ -10,8 +10,9 @@ export const Container = styled.div`
   align-items: flex-start;
   justify-content: center;
 
-  span {
+  span.description {
     margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   form {

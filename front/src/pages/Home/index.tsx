@@ -13,22 +13,7 @@ import { ContentLoveStory } from './styles'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [description, setDescription] = useState<string>('')
   const [stepsLoveStory, setStepsLoveStory] = useState<LoveStoryProps[]>([])
-
-  async function listDescription() {
-    setIsLoading(true)
-    try {
-      const response = await await api.get('/get-page-description/home')
-      const description = response.data
-
-      setDescription(description)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   async function getDetailsLoveStory() {
     setIsLoading(true)
@@ -45,7 +30,6 @@ export function Home() {
   }
 
   useEffect(() => {
-    listDescription()
     getDetailsLoveStory()
   }, [])
 

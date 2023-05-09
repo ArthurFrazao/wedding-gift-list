@@ -2,12 +2,14 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  height: 80vh;
+  min-height: 80vh;
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  margin-bottom: 2rem;
 
   h1 {
     margin-top: 3rem;
@@ -29,8 +31,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 0 1rem;
-
-    margin-top: 12rem;
 
     .content {
       display: flex;

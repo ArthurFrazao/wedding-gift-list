@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
 
 import { Button } from '../../components/Button'
 import { PageDefault } from '../../components/PageDefault'
@@ -6,9 +8,9 @@ import { PageDefault } from '../../components/PageDefault'
 import { FormInput, FormLabel } from '../ConfirmPresence/styles'
 import { Container, SelectOption } from './styles'
 
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import api from '../../services/api'
+import { ImportantInformations } from '../../components/GiftForm'
 
 interface FormValues {
   name: string
@@ -20,14 +22,16 @@ interface FormValues {
 type SelectOption = '' | 'sim' | 'não'
 
 export function AddSuggestion() {
+  const [isRedirect, setIsRedirect] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState<SelectOption>('')
-
   const [formValues, setFormValues] = useState<FormValues>({
     name: '',
     namePerson: '',
     selectedOption: '',
     file: undefined
   })
+
+  const navigate = useNavigate()
 
   const description = `<span>Bem-vindo à nossa página de sugestões de presentes para o casal! <br /><br /> Sabemos que cada casal é único e tem gostos e preferências diferentes. Por isso, estamos abertos a todas as sugestões de presentes que vocês possam ter! Seja algo personalizado e feito à mão, algo útil e prático, ou mesmo algo mais luxuoso e sofisticado, queremos ouvir todas as suas ideias.<span>`
 
@@ -80,7 +84,6 @@ export function AddSuggestion() {
           'Content-Type': 'multipart/form-data'
         }
       })
-
       console.log(response.data)
 
       toast.success('Sugestão adicionada! Agradecemos muito ❤️', {
@@ -95,19 +98,28 @@ export function AddSuggestion() {
       })
 
       setTimeout(() => {
-        location.reload()
+        setIsRedirect(true)
       }, 3000)
     } catch (error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    isRedirect && navigate('/category/gift-list')
+  }, [isRedirect])
+
   return (
     <PageDefault>
       <Container>
         <h1>Adicionar Sugestão</h1>
 
-        <span dangerouslySetInnerHTML={{ __html: description }} />
+        <span
+          className="description"
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+
+        {selectedOption === 'sim' && <ImportantInformations />}
 
         <form onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">

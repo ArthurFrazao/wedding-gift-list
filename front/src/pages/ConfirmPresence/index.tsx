@@ -121,10 +121,10 @@ export function ConfirmPresence() {
           <br />
           Aqui é um espaço dedicado para que nossos convidados possam nos
           informar se estarão presentes em nosso casamento. Além disso, você
-          pode confirmar quantas pessoas estarão vindo com você e nos dar
-          detalhes adicionais, se necessário. Sua presença é muito importante
-          para nós e, por isso, agradecemos por reservar um tempo para nos
-          informar sobre sua participação em nosso grande dia.
+          pode visualizar quantos convites estarão disponíveis para você e é
+          possível nos dar detalhes adicionais, se necessário. Sua presença é
+          muito importante para nós e, por isso, agradecemos por reservar um
+          tempo para nos informar sobre sua participação em nosso grande dia.
         </span>
 
         <form onSubmit={handleSubmit}>

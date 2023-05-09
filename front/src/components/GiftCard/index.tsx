@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { Modal } from '../Modal'
-import { GiftModal } from '../GiftModal'
 
 import { GiftProps } from '../../interfaces/props'
 
@@ -23,7 +22,6 @@ export function GiftCard({ dataGift }: GiftCardProps) {
       <h3>{dataGift?.name}</h3>
       <img src={giftImg} alt="Imagem do Produto" />
       <Modal textButton="Presentear" gift={dataGift}>
-        <GiftModal />
         <GiftForm />
       </Modal>
     </Container>

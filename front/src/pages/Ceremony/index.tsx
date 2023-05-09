@@ -87,13 +87,13 @@ export function Ceremony() {
               <ul>
                 <li>
                   <strong>Arthur:</strong> -{' '}
-                  <a href={redirectMessageArthur}>
+                  <a href={redirectMessageArthur} target="_blank">
                     [Clique aqui para enviar uma mensagem]
                   </a>
                 </li>
                 <li>
                   <strong>Nathalia</strong> -{' '}
-                  <a href={redirectMessageNathalia}>
+                  <a href={redirectMessageNathalia} target="_blank">
                     [Clique aqui para enviar uma mensagem]
                   </a>
                 </li>
