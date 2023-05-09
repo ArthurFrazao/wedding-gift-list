@@ -1,10 +1,10 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '../../components/Button'
 import { PageDefault } from '../../components/PageDefault'
 
 import { FormInput, FormLabel } from '../ConfirmPresence/styles'
-import { Container } from './styles'
+import { Container, SelectOption } from './styles'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,20 +12,44 @@ import api from '../../services/api'
 
 interface FormValues {
   name: string
+  namePerson: string
   file?: File
+  selectedOption: SelectOption
 }
 
+type SelectOption = '' | 'sim' | 'não'
+
 export function AddSuggestion() {
+  const [selectedOption, setSelectedOption] = useState<SelectOption>('')
+
   const [formValues, setFormValues] = useState<FormValues>({
     name: '',
+    namePerson: '',
+    selectedOption: '',
     file: undefined
   })
+
+  const description = `<span>Bem-vindo à nossa página de sugestões de presentes para o casal! <br /><br /> Sabemos que cada casal é único e tem gostos e preferências diferentes. Por isso, estamos abertos a todas as sugestões de presentes que vocês possam ter! Seja algo personalizado e feito à mão, algo útil e prático, ou mesmo algo mais luxuoso e sofisticado, queremos ouvir todas as suas ideias.<span>`
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     setFormValues(prevState => ({
       ...prevState,
       name: value
+    }))
+  }
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value as SelectOption)
+  }
+
+  const handleNamePersonChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = event.target
+    setFormValues(prevState => ({
+      ...prevState,
+      namePerson: value
     }))
   }
 
@@ -44,17 +68,35 @@ export function AddSuggestion() {
     try {
       const formData = new FormData()
       formData.append('name', formValues.name)
+      formData.append('namePerson', formValues.namePerson)
+      formData.append('selectedOption', formValues.selectedOption)
+
       if (formValues.file) {
         formData.append('file', formValues.file)
       }
 
-      const response = await api.post('/upload-item', formData, {
+      const response = await api.post('/give-suggestion', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
 
       console.log(response.data)
+
+      toast.success('Sugestão adicionada! Agradecemos muito ❤️', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+
+      setTimeout(() => {
+        location.reload()
+      }, 3000)
     } catch (error) {
       console.error(error)
     }
@@ -65,12 +107,7 @@ export function AddSuggestion() {
       <Container>
         <h1>Adicionar Sugestão</h1>
 
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-          aspernatur ex nam aliquid ut, minima reprehenderit voluptatem expedita
-          eius deleniti accusantium consequuntur delectus! Aliquam quis esse
-          error ducimus maxime quisquam.
-        </span>
+        <span dangerouslySetInnerHTML={{ __html: description }} />
 
         <form onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">
@@ -83,6 +120,34 @@ export function AddSuggestion() {
             onChange={handleNameChange}
             required
           />
+
+          <FormLabel htmlFor="simple-select">
+            É você quem está presenteando? <b>*</b>
+          </FormLabel>
+          <SelectOption
+            id="simple-select"
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="">-- Selecione uma opção --</option>
+            <option value="sim">Sim</option>
+            <option value="não">Não</option>
+          </SelectOption>
+
+          {selectedOption === 'sim' && (
+            <>
+              <FormLabel htmlFor="namePerson">
+                Quem está presenteando? <b>*</b>
+              </FormLabel>
+              <FormInput
+                type="text"
+                id="namePerson"
+                value={formValues.namePerson}
+                onChange={handleNamePersonChange}
+                required
+              />
+            </>
+          )}
 
           <FormLabel htmlFor="file">
             Imagem do item: <strong>(opcional)</strong>

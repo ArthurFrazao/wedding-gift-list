@@ -26,7 +26,24 @@ export const Container = styled.div`
     gap: 0.25rem;
   }
 
+  b {
+    margin-left: 0.5rem;
+    color: var(--red);
+  }
+
   button {
     margin-top: 0.5rem;
   }
+`
+
+export const SelectOption = styled.select`
+  width: 100%;
+  height: 2rem;
+  padding: 0 10px;
+
+  text-align: start;
+  color: var(--black);
+  background: var(--white);
+  border: none;
+  border-radius: 0.5rem;
 `

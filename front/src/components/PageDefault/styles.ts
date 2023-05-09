@@ -10,5 +10,5 @@ export const Main = styled.div`
   width: 100%;
   max-width: 1440px;
 
-  margin-top: 80px;
+  margin-top: 5rem;
 `

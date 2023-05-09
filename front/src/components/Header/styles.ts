@@ -33,7 +33,7 @@ export const Container = styled.header`
   }
 
   h4 {
-    margin-top: 4px;
+    margin-top: 0.25rem;
     padding-left: 2rem;
 
     font-size: 2rem;

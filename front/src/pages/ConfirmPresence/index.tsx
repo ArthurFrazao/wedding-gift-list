@@ -20,9 +20,6 @@ import 'react-toastify/dist/ReactToastify.css'
 type FormEvent = React.FormEvent<HTMLFormElement>
 
 export function ConfirmPresence() {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [description, setDescription] = useState<string>('')
-
   const [idRepresentant, setIdRepresentant] = useState<number>(0)
   const [invitations, setInvitations] = useState<number>(0)
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -32,22 +29,6 @@ export function ConfirmPresence() {
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setOptionalMessage(event.target.value)
-  }
-
-  async function getDescription() {
-    setIsLoading(true)
-    try {
-      const response = await await api.get(
-        '/get-page-description/confirm-presence'
-      )
-      const description = response.data
-
-      setDescription(description)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
   }
 
   const handleSubmit = (event: FormEvent) => {
@@ -68,6 +49,8 @@ export function ConfirmPresence() {
           }
         })
         .then(response => {
+          console.log('response', response)
+
           toast.success('Presença confirmada! Esperamos você ❤️', {
             position: 'top-center',
             autoClose: 3000,
@@ -83,17 +66,22 @@ export function ConfirmPresence() {
             location.reload()
           }, 3000)
         })
+        .catch(error => {
+          console.error(error)
+
+          toast.warn('Ops! Algo deu errado. 😥', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light'
+          })
+        })
     } catch (error) {
-      toast.warn('Ops! Algo deu errado. 😥', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light'
-      })
+      console.error(error)
     }
   }
 
@@ -119,18 +107,25 @@ export function ConfirmPresence() {
 
   useEffect(() => {
     listAllGuests()
-    getDescription()
   }, [])
 
   return (
     <PageDefault>
       <Container>
         <h1>Confirmar presença</h1>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <span dangerouslySetInnerHTML={{ __html: description }} />
-        )}
+
+        <span>
+          Bem-vindo à nossa página de confirmação de presença para o nosso
+          casamento!
+          <br />
+          <br />
+          Aqui é um espaço dedicado para que nossos convidados possam nos
+          informar se estarão presentes em nosso casamento. Além disso, você
+          pode confirmar quantas pessoas estarão vindo com você e nos dar
+          detalhes adicionais, se necessário. Sua presença é muito importante
+          para nós e, por isso, agradecemos por reservar um tempo para nos
+          informar sobre sua participação em nosso grande dia.
+        </span>
 
         <form onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">

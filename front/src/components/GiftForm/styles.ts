@@ -11,8 +11,8 @@ export const Container = styled.div`
 
   button {
     width: fit-content;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
     font-family: 'Lato', sans-serif;
   }
 
@@ -34,7 +34,7 @@ export const FormCustom = styled.form`
 export const FormInput = styled.input`
   width: calc(100% - 1rem);
   height: 2rem;
-  padding: 0 10px;
+  padding: 0 0.625rem;
 
   text-align: start;
   color: var(--black);

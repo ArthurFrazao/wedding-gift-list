@@ -53,7 +53,7 @@ export function Home() {
 
   return (
     <PageDefault>
-      <HeroCard description={description} />
+      <HeroCard />
 
       <ContentLoveStory>
         <h2>Nossa história de amor</h2>

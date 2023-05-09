@@ -19,8 +19,8 @@ export const Container = styled.div`
 `
 
 export const Loading = styled.div`
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: 0.25rem solid #f3f3f3;
+  border-top: 0.25rem solid #3498db;
   border-radius: 50%;
   width: 4rem;
   height: 4rem;

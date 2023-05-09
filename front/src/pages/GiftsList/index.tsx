@@ -13,7 +13,12 @@ import { Container } from './styles'
 export function GiftsList() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [gifts, setGifts] = useState<GiftProps[]>([])
-  const [description, setDescription] = useState<string>('')
+
+  const description = `<span>Sua presença em nosso casamento já é muito importante para nós, mas... caso queira nos ajudar a montar nossa casa nova e realizar nosso sonho, ficaríamos imensamente agradecidos e felizes. <br> 
+  <br>
+  Abaixo, listamos algumas sugestões de presentes que adoraríamos ganhar. Para cada item, colocamos um ou mais links de sites sugeridos onde é possível encontrá-los, mas fique à vontade para buscar os produtos em outras lojas e sites com os quais esteja familiarizado ou costuma comprar.
+  Além disso, é possível adicionar uma sugestão de presente clicando no botão <strong>Adicionar sugestão</strong>. Você também pode filtrar os presentes e selecionar apenas aqueles que ainda não foram escolhidos. 
+  Agradecemos seu carinho e generosidade, e não se esqueça de confirmar sua presença em nossa cerimônia na aba <strong>Confirmar Presença</strong> no menu inicial. Sua presença será muito importante para tornar nosso dia ainda mais especial. </span>`
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
@@ -26,20 +31,6 @@ export function GiftsList() {
       setGifts(filteredGifts)
     } else {
       listAllGifts()
-    }
-  }
-
-  async function listDescription() {
-    setIsLoading(true)
-    try {
-      const response = await await api.get('/get-page-description/gift-list')
-      const description = response.data
-
-      setDescription(description)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -72,7 +63,6 @@ export function GiftsList() {
   }
 
   useEffect(() => {
-    listDescription()
     listAllGifts()
   }, [])
 

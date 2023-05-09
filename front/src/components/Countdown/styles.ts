@@ -47,8 +47,8 @@ export const Container = styled.div`
     }
 
     .item-date {
-      width: 85px;
-      height: 85px;
+      width: 5.3125rem;
+      height: 5.3125rem;
     }
   }
 `

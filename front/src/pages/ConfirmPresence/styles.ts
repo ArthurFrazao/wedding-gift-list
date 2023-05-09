@@ -77,7 +77,7 @@ export const Autocomplete = styled(Select)`
 export const CustomInputMask = styled(InputMask)`
   width: 100%;
   height: 2rem;
-  padding: 0 10px;
+  padding: 0 0.625rem;
 
   text-align: start;
   color: var(--black);

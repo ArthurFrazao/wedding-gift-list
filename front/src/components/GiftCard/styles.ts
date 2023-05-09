@@ -10,9 +10,9 @@ export const Container = styled.div`
   padding: 1rem;
   background-color: white;
 
-  height: 332px;
+  height: 20.75rem;
 
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border: 1px solid var(--white);
 
   box-shadow: -1px 12px 5px -7px rgba(0, 0, 0, 0.51);
@@ -24,8 +24,8 @@ export const Container = styled.div`
   }
 
   img {
-    width: 164px;
-    height: 164px;
+    width: 10.25rem;
+    height: 10.25rem;
     border-radius: 50%;
   }
 `

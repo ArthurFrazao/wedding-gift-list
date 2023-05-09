@@ -31,7 +31,7 @@ export const ModalCard = styled.div`
 
   background-color: white;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 `
 
