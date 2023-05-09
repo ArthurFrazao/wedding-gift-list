@@ -52,10 +52,10 @@ def give_suggestion():
         return jsonify({"error": "No selected file"}), 400
     
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        secure_filename(file.filename)
         storage_client = storage.Client()
         bucket = storage_client.bucket("wedding-website-backend-images")
-        blob = bucket.blob(filename)
+        blob = bucket.blob(item_name)
         blob.upload_from_file(file)
         return jsonify({"message": "File uploaded"}), 200
 
