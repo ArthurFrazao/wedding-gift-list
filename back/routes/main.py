@@ -1,5 +1,5 @@
 from database import BigQueryClass
-from flask import Flask, jsonify, request, flash, redirect, url_for
+from flask import Flask, jsonify, request, flash
 from flask_cors import CORS
 from flask_caching import Cache
 from werkzeug.utils import secure_filename
@@ -36,27 +36,23 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
            
-@app.route("/upload-item", methods=["POST"])
-def upload_image():
+@app.route("/give_suggestion", methods=["POST"])
+def give_suggestion():
     
+    print(f"name: {request.json['name']}")
+    print(f"namePerson: {request.json['namePerson']}")
     file = request.files["file"]
-    print(file.filename)
     if not file.filename:
         flash("No selected file")
         return jsonify({"error": "No selected file"}), 400
-        # return redirect(request.url)
+    
     if file and allowed_file(file.filename):
-        print(file)
         filename = secure_filename(file.filename)
         storage_client = storage.Client()
         bucket = storage_client.bucket("wedding-website-backend-images-upload")
         blob = bucket.blob(filename)
         blob.upload_from_file(file)
-
-        # file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         return jsonify({"message": "File uploaded"}), 200
-        # return redirect(url_for('download_file', name=filename))        
-     
 
 @app.route("/all-gifts", methods=["GET"])
 @cache.cached(timeout=60)
@@ -183,40 +179,40 @@ def confirm_presence():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route("/give-suggestion", methods=["POST"])
-def give_suggestion():
-    if not request.json:
-        return jsonify({"error": "no data provided in request body"}), 400
-    try:
-        data = request.json
-        product_name = data["name"].strip().title()
-        product_url = data["url"].strip()
+# @app.route("/give-suggestion", methods=["POST"])
+# def give_suggestion():
+#     if not request.json:
+#         return jsonify({"error": "no data provided in request body"}), 400
+#     try:
+#         data = request.json
+#         product_name = data["name"].strip().title()
+#         product_url = data["url"].strip()
 
-        query = f"""
-        MERGE
-            backend.gifts as T
-        USING
-        (
-        SELECT
-            MAX(id)+1 as id,
-            '{product_name}' as name,
-            '{product_url}' as image_url,
-            {False} as is_presented
-        FROM
-        backend.gifts
-        ) as S
-        ON T.name = S.name
-        WHEN NOT MATCHED THEN
-        INSERT ROW
-        """
-        bigquery.execute_query(query)
+#         query = f"""
+#         MERGE
+#             backend.gifts as T
+#         USING
+#         (
+#         SELECT
+#             MAX(id)+1 as id,
+#             '{product_name}' as name,
+#             '{product_url}' as image_url,
+#             {False} as is_presented
+#         FROM
+#         backend.gifts
+#         ) as S
+#         ON T.name = S.name
+#         WHEN NOT MATCHED THEN
+#         INSERT ROW
+#         """
+#         bigquery.execute_query(query)
 
-        return jsonify({"message": "Suggestion confirmed successfully"}), 200
+#         return jsonify({"message": "Suggestion confirmed successfully"}), 200
 
-    except KeyError as e:
-        return jsonify({"error": f"the field {e} is required"}), 400
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+#     except KeyError as e:
+#         return jsonify({"error": f"the field {e} is required"}), 400
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 
 @app.after_request
 def after_request(response):
