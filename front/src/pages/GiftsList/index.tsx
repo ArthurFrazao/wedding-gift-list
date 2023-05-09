@@ -16,7 +16,7 @@ export function GiftsList() {
 
   const description = `<span>Sua presença em nosso casamento já é muito importante para nós, mas... caso queira nos ajudar a montar nossa casa nova e realizar nosso sonho, ficaríamos imensamente agradecidos e felizes. <br> 
   <br>
-  Abaixo, listamos algumas sugestões de presentes que adoraríamos ganhar. Para cada item, colocamos um ou mais links de sites sugeridos onde é possível encontrá-los, mas fique à vontade para buscar os produtos em outras lojas e sites com os quais esteja familiarizado ou costuma comprar.
+  Abaixo, listamos algumas sugestões de presentes que adoraríamos ganhar. Fique à vontade para buscar os produtos em quaisquer lojas e/ou sites com os quais esteja familiarizado ou costuma comprar.
   Além disso, é possível adicionar uma sugestão de presente clicando no botão <strong>Adicionar sugestão</strong>. Você também pode filtrar os presentes e selecionar apenas aqueles que ainda não foram escolhidos. 
   Agradecemos seu carinho e generosidade, e não se esqueça de confirmar sua presença em nossa cerimônia na aba <strong>Confirmar Presença</strong> no menu inicial. Sua presença será muito importante para tornar nosso dia ainda mais especial. </span>`
 
