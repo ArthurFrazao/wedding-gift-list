@@ -5,10 +5,10 @@ import { PageDefault } from '../../components/PageDefault'
 import { Container, Description } from './styles'
 
 const redirectMessageArthur =
-  'https://api.whatsapp.com/send?phone=5534992440811&text=Ol%C3%A1,%20obrigado%20por%20entrar%20em%20contato!%20Estou%20ansioso%20para%20conversar%20com%20voc%C3%AA.%20Por%20favor,%20me%20envie%20suas%20perguntas%20ou%20coment%C3%A1rios,%20e%20eu%20responderei%20assim%20que%20puder.%20Obrigado%20e%20tenha%20um%20%C3%B3timo%20dia!'
+  'https://api.whatsapp.com/send?phone=5534992440811&text=Ol%C3%A1,%20tudo%20bem?%20Gostaria%20de%20conversar%20com%20voc%C3%AA%20sobre%20o%20casamento,%20quando%20puder%20me%20responda%20:)'
 
 const redirectMessageNathalia =
-  'https://api.whatsapp.com/send?phone=5534992677634&text=Ol%C3%A1,%20obrigada%20por%20entrar%20em%20contato!%20Estou%20ansiosa%20para%20conversar%20com%20voc%C3%AA.%20Por%20favor,%20me%20envie%20suas%20perguntas%20ou%20coment%C3%A1rios,%20e%20eu%20responderei%20assim%20que%20puder.%20Obrigado%20e%20tenha%20um%20%C3%B3timo%20dia!'
+  'https://api.whatsapp.com/send?phone=5534992677634&text=Ol%C3%A1,%20tudo%20bem?%20Gostaria%20de%20conversar%20com%20voc%C3%AA%20sobre%20o%20casamento,%20quando%20puder%20me%20responda%20:)'
 
 export function Ceremony() {
   const [isMobile, setIsMobile] = useState(false)

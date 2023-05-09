@@ -133,6 +133,7 @@ export function AddSuggestion() {
           <FormInput
             type="text"
             id="name"
+            placeholder="Digite o nome do item sugerido"
             value={formValues.name}
             onChange={handleNameChange}
             required
@@ -159,6 +160,7 @@ export function AddSuggestion() {
               <FormInput
                 type="text"
                 id="namePerson"
+                placeholder="Digite seu nome completo"
                 value={formValues.namePerson}
                 onChange={handleNamePersonChange}
                 required
