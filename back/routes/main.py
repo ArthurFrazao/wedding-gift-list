@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_caching import Cache
 from werkzeug.utils import secure_filename
 import os
+from google.cloud import storage
 
 UPLOAD_FOLDER = "gs://wedding-website-backend-images-upload"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
@@ -47,7 +48,12 @@ def upload_image():
     if file and allowed_file(file.filename):
         print(file)
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        storage_client = storage.Client()
+        bucket = storage_client.bucket("wedding-website-backend-images-upload")
+        blob = bucket.blob(filename)
+        blob.upload_from_file(file)
+
+        # file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         return jsonify({"message": "File uploaded"}), 200
         # return redirect(url_for('download_file', name=filename))        
      
