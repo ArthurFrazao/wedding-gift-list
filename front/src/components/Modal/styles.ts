@@ -22,7 +22,9 @@ export const ModalWrapper = styled.div<ModalProps>`
   justify-content: center;
 
   cursor: ${props => (props.cursorLoader ? 'wait' : 'default')};
-  backdrop-filter: blur(1px);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
 `
 
 export const ModalCard = styled.div`

@@ -44,7 +44,12 @@ export function AddSuggestion() {
   }
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value as SelectOption)
+    const { value } = event.target
+    setSelectedOption(value as SelectOption)
+    setFormValues(prevState => ({
+      ...prevState,
+      selectedOption: value as SelectOption
+    }))
   }
 
   const handleNamePersonChange = (
