@@ -45,9 +45,11 @@ export function GiftForm() {
 
   const [name, setName] = useState('')
   const [optionalMessage, setOptionalMessage] = useState<string>('')
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   async function handleForm() {
     setIsWaiting(true)
+    setIsSubmitted(true)
 
     try {
       await api
@@ -99,7 +101,10 @@ export function GiftForm() {
         <ToastContainer />
       </FormCustom>
       <ButtonsGroup>
-        <ButtonConfirm onClick={handleForm} disabled={name.length < 5}>
+        <ButtonConfirm
+          onClick={handleForm}
+          disabled={name.length < 5 || isSubmitted}
+        >
           Confirmar
         </ButtonConfirm>
         <ButtonCancel onClick={() => setIsOpen(false)} className="cancel">

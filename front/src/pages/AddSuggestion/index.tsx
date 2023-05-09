@@ -22,6 +22,7 @@ interface FormValues {
 type SelectOption = '' | 'sim' | 'não'
 
 export function AddSuggestion() {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
   const [isRedirect, setIsRedirect] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState<SelectOption>('')
   const [formValues, setFormValues] = useState<FormValues>({
@@ -74,6 +75,8 @@ export function AddSuggestion() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setIsSubmitted(true)
+
     try {
       const formData = new FormData()
       formData.append('name', formValues.name)
@@ -169,7 +172,9 @@ export function AddSuggestion() {
             onChange={handleFileChange}
           />
 
-          <Button type="submit">Enviar</Button>
+          <Button type="submit" disabled={isSubmitted}>
+            Enviar
+          </Button>
           <ToastContainer />
         </form>
       </Container>
