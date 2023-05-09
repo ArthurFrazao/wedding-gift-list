@@ -36,15 +36,15 @@ def give_suggestion():
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
     this_person_will_gift = True if data["selectedOption"] == "sim" else False
-    
-    file = request.files["file"]    
-    if file and allowed_file(file.filename):
-        secure_filename(file.filename)
-        storage_client = storage.Client()
-        bucket = storage_client.bucket("wedding-website-backend-images")
-        blob = bucket.blob(item_name)
-        blob.upload_from_file(file)
-        public_url = blob.make_public()
+    file = request.files.get("file", None)
+    if file:
+        if allowed_file(file.filename):
+            secure_filename(file.filename)
+            storage_client = storage.Client()
+            bucket = storage_client.bucket("wedding-website-backend-images")
+            blob = bucket.blob(item_name)
+            blob.upload_from_file(file)
+            public_url = blob.make_public()
     else:
         public_url = f"https://storage.googleapis.com/wedding-website-backend-images/default.jpg"
         
