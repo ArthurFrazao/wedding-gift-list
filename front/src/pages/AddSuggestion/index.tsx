@@ -91,16 +91,7 @@ export function AddSuggestion() {
       })
       console.log(response.data)
 
-      toast.success('Sugestão adicionada! Agradecemos muito ❤️', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light'
-      })
+      toast.success('Sugestão adicionada! Agradecemos muito ❤️')
 
       setTimeout(() => {
         setIsRedirect(true)

@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.css'
 type FormEvent = React.FormEvent<HTMLFormElement>
 
 export function ConfirmPresence() {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
   const [idRepresentant, setIdRepresentant] = useState<number>(0)
   const [invitations, setInvitations] = useState<number>(0)
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -27,12 +28,16 @@ export function ConfirmPresence() {
 
   const [isListingGuests, setIsListingGuests] = useState([])
 
+  const messageGenericError = 'Ops! Algo deu errado. 😥'
+  const alreadyConfirmedError = 'Você já confirmou sua presença. 😃'
+
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setOptionalMessage(event.target.value)
   }
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
+    setIsSubmitted(true)
 
     const confirmPresence = {
       id_representant: idRepresentant,
@@ -48,37 +53,19 @@ export function ConfirmPresence() {
             'Content-Type': 'application/json'
           }
         })
-        .then(response => {
-          console.log('response', response)
-
-          toast.success('Presença confirmada! Esperamos você ❤️', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light'
-          })
+        .then(() => {
+          toast.success('Presença confirmada! Esperamos você ❤️')
 
           setTimeout(() => {
             location.reload()
           }, 3000)
         })
         .catch(error => {
-          console.error(error)
+          error.response.data.error === 'Presence already confirmed'
+            ? toast.info(alreadyConfirmedError)
+            : toast.error(messageGenericError)
 
-          toast.warn('Ops! Algo deu errado. 😥', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light'
-          })
+          setIsSubmitted(false)
         })
     } catch (error) {
       console.error(error)
@@ -171,7 +158,9 @@ export function ConfirmPresence() {
             onChange={handleInputChange}
           />
 
-          <Button type="submit">Enviar</Button>
+          <Button type="submit" disabled={isSubmitted}>
+            Enviar
+          </Button>
           <ToastContainer />
         </form>
       </Container>

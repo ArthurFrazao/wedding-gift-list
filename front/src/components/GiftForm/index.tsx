@@ -57,29 +57,9 @@ export function GiftForm() {
           optionalMessage
         })
         .then(() =>
-          toast.success('Boa escolha! Te agradecemos muito pelo presente ❤️', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: 'light'
-          })
+          toast.success('Boa escolha! Te agradecemos muito pelo presente ❤️')
         )
-        .catch(() =>
-          toast.warn('Ops! Algo deu errado. 😥', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light'
-          })
-        )
+        .catch(() => toast.warn('Ops! Algo deu errado. 😥'))
 
       setTimeout(() => {
         location.reload()
