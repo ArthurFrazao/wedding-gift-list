@@ -1,19 +1,13 @@
 from database import BigQueryClass
 from flask import Flask, jsonify, request, flash
 from flask_cors import CORS
-from flask_caching import Cache
 from werkzeug.utils import secure_filename
-import os
 from google.cloud import storage
 
-UPLOAD_FOLDER = "gs://wedding-website-backend-images-upload"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-cache = Cache(app, config={"CACHE_TYPE": "simple"})
 
 """
 The Flask-CORS library is being used to enable access from another domain to the API,
@@ -60,7 +54,6 @@ def give_suggestion():
         return jsonify({"message": "File uploaded"}), 200
 
 @app.route("/all-gifts", methods=["GET"])
-@cache.cached(timeout=60)
 def get_all_gifts():
     try:
         results = bigquery.execute_query(query="SELECT * FROM backend.gifts ORDER BY name")
@@ -81,7 +74,6 @@ def get_gift_link(id_gift):
         return jsonify(results[0]["links"]), 200
 
 @app.route("/get-page-description/<page>", methods=["GET"])
-@cache.cached(timeout=300)
 def get_page_description(page):
     """
     Retrieves the description of a given page from the backend.pages_description table in BigQuery.
@@ -102,7 +94,6 @@ def get_page_description(page):
     return results[0]["description"], 200
 
 @app.route("/get-love-story", methods=["GET"])
-@cache.cached(timeout=300)
 def get_love_story():
     try:
         results = bigquery.execute_query(
