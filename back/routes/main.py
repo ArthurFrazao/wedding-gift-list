@@ -10,6 +10,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.config["CORS_HEADERS"] = "Content-Type"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 cache = Cache(app, config={"CACHE_TYPE": "simple"})
 
