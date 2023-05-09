@@ -36,22 +36,18 @@ def allowed_file(filename):
            
 @app.route("/upload-item", methods=["POST"])
 def upload_image():
-
+    
     file = request.files["file"]
     print(file.filename)
-    return jsonify({"message": "boa"}), 200
-    
-    # file = request.files["file"]
-    # print(file.filename)
-    # if not file.filename:
-    #     # flash("No selected file")
-    #     return jsonify({"error": "No selected file"}), 400
-    #     # return redirect(request.url)
-    # if file and allowed_file(file.filename):
-    #     print(file)
-    #     filename = secure_filename(file.filename)
-    #     file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-    #     return jsonify({"message": "File uploaded"}), 200
+    if not file.filename:
+        flash("No selected file")
+        return jsonify({"error": "No selected file"}), 400
+        # return redirect(request.url)
+    if file and allowed_file(file.filename):
+        print(file)
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        return jsonify({"message": "File uploaded"}), 200
         # return redirect(url_for('download_file', name=filename))        
      
 
