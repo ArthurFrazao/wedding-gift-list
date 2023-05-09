@@ -31,16 +31,13 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/give-suggestion", methods=["POST"])
-def give_suggestion():
-    
+def give_suggestion():    
     if not request.form:
         return jsonify({"error": "No data provided in request body"}), 400
     data = request.form
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
-    this_person_will_gift = data["selectedOption"]
-    print("this_person_will_gift ", this_person_will_gift)
-    print("type this_person_will_gift: ", type(this_person_will_gift))
+    this_person_will_gift = True if data["selectedOption"] == "sim" else False
     
     file = request.files["file"]
     if not file.filename:
@@ -53,8 +50,47 @@ def give_suggestion():
         bucket = storage_client.bucket("wedding-website-backend-images")
         blob = bucket.blob(item_name)
         blob.upload_from_file(file)
+        blob.make_public()
+        update_table_gifts(item_name, blob.public_url, this_person_will_gift)
+        if this_person_will_gift:
+            update_table_guests_gifts(item_name, name_person)
         return jsonify({"message": "File uploaded"}), 200
 
+def update_table_gifts(item_name: str, file_public_url: str, is_presented: bool):
+    query = f"""
+    MERGE
+        backend.gifts as T
+    USING
+    (
+    SELECT
+        MAX(id)+1 as id,
+        '{item_name}' as name,
+        '{file_public_url}' as image_url,
+        {is_presented} as is_presented
+    FROM
+    backend.gifts
+    ) as S
+    ON T.name = S.name
+    WHEN NOT MATCHED THEN
+    INSERT ROW
+    """
+    bigquery.execute_query(query)
+
+def update_table_guests_gifts(item_name: str, name_person: str):
+    query = f"""
+    MERGE backend.guests_gifts AS T
+    USING (
+        select id, '{name_person}'
+        from backend.gifts
+        where name = '{item_name}'
+    ) AS s
+    ON T.id_gift = S.id
+    WHEN NOT MATCHED THEN
+    INSERT ROW
+    """
+    bigquery.execute_query(query)
+    
+    
 @app.route("/all-gifts", methods=["GET"])
 def get_all_gifts():
     try:
@@ -74,26 +110,6 @@ def get_gift_link(id_gift):
         return jsonify([]), 200
     else:
         return jsonify(results[0]["links"]), 200
-
-@app.route("/get-page-description/<page>", methods=["GET"])
-def get_page_description(page):
-    """
-    Retrieves the description of a given page from the backend.pages_description table in BigQuery.
-
-    Parameters:
-        - page (str): the name of the page to retrieve the description for. Accepted values are "gift-list",
-          "confirm-presence", and "home".
-
-    Returns:
-        A tuple containing the description string and an HTTP status code. If the query was successful, the
-        description string is returned along with a 200 status code. If an error occurred during the query,
-        a tuple containing an error message string and a 500 status code is returned.
-    """
-    try:
-        results = bigquery.execute_query(query=f"SELECT description FROM backend.pages_description WHERE name = '{page}'")
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    return results[0]["description"], 200
 
 @app.route("/get-love-story", methods=["GET"])
 def get_love_story():
@@ -176,41 +192,6 @@ def confirm_presence():
         return jsonify({"error": f"the field {e} is required"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-# @app.route("/give-suggestion", methods=["POST"])
-# def give_suggestion():
-#     if not request.json:
-#         return jsonify({"error": "no data provided in request body"}), 400
-#     try:
-#         data = request.json
-#         product_name = data["name"].strip().title()
-#         product_url = data["url"].strip()
-
-#         query = f"""
-#         MERGE
-#             backend.gifts as T
-#         USING
-#         (
-#         SELECT
-#             MAX(id)+1 as id,
-#             '{product_name}' as name,
-#             '{product_url}' as image_url,
-#             {False} as is_presented
-#         FROM
-#         backend.gifts
-#         ) as S
-#         ON T.name = S.name
-#         WHEN NOT MATCHED THEN
-#         INSERT ROW
-#         """
-#         bigquery.execute_query(query)
-
-#         return jsonify({"message": "Suggestion confirmed successfully"}), 200
-
-#     except KeyError as e:
-#         return jsonify({"error": f"the field {e} is required"}), 400
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
 
 @app.after_request
 def after_request(response):
