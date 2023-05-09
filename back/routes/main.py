@@ -37,6 +37,7 @@ def give_suggestion():
     data = request.form
     item_name = data["name"].strip().title()
     name_person = data["namePerson"].strip().title()
+    print("selectedOption ", data["selectedOption"])
     this_person_will_gift = True if data["selectedOption"] == "sim" else False
     
     file = request.files["file"]
