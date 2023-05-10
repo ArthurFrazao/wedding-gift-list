@@ -41,7 +41,7 @@ export function ImportantInformations() {
       <span className="footer">
         <strong>*</strong> Caso o item escolhido ou sugerido seja panelas e
         afins, pedimos que atente-se pois o nosso fogão é de indução e necessita
-        de uma condição específica. <strong>*</strong>
+        de panelas específicas. <strong>*</strong>
       </span>
     </Header>
   )
