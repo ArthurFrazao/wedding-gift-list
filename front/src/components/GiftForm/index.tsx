@@ -24,7 +24,9 @@ export function ImportantInformations() {
     <Header>
       <header>
         <WarningCircle size={32} color="#c63c3c" />
-        <span>Informações importantes:</span>
+        <span>
+          Informações importantes para aparelhos eletronicos e eletrodomesticos:
+        </span>
       </header>
 
       <span>
@@ -34,6 +36,12 @@ export function ImportantInformations() {
       <span>
         {' '}
         <strong>Preferência de cor:</strong> Preto ou Inox
+      </span>
+
+      <span className="footer">
+        <strong>*</strong> Caso o item escolhido ou sugerido seja panelas e
+        afins, pedimos que atente-se pois o nosso fogão é de indução e necessita
+        de uma condição específica. <strong>*</strong>
       </span>
     </Header>
   )
