@@ -44,7 +44,8 @@ def give_suggestion():
             bucket = storage_client.bucket("wedding-website-backend-images")
             blob = bucket.blob(item_name)
             blob.upload_from_file(file)
-            public_url = blob.make_public()
+            blob.make_public()
+            public_url = blob.public_url
     else:
         public_url = f"https://storage.googleapis.com/wedding-website-backend-images/default.jpg"
         
